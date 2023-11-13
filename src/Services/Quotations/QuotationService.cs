@@ -135,8 +135,8 @@ namespace Services.Quotations
             }
 
 
-            Address eventAddress = new Address(model.QuotationVersion.EventAddress.Zip, model.QuotationVersion.EventAddress.City, model.QuotationVersion.EventAddress.Street, model.QuotationVersion.EventAddress.Zip);
-            Address billingAddress = new Address(model.QuotationVersion.BillingAddress.Zip, model.QuotationVersion.BillingAddress.City, model.QuotationVersion.BillingAddress.Street, model.QuotationVersion.BillingAddress.Zip);
+            Address eventAddress = new Address(model.QuotationVersion.EventAddress.Zip, model.QuotationVersion.EventAddress.City, model.QuotationVersion.EventAddress.Street, model.QuotationVersion.EventAddress.HouseNumber);
+            Address billingAddress = new Address(model.QuotationVersion.BillingAddress.Zip, model.QuotationVersion.BillingAddress.City, model.QuotationVersion.BillingAddress.Street, model.QuotationVersion.BillingAddress.HouseNumber);
             string reservationDescription = model.Customer.Firstname + " " + model.Customer.Lastname;
             Reservation reservation = new Reservation(model.QuotationVersion.Reservation.Start.Value, model.QuotationVersion.Reservation.End.Value,  reservationDescription);
             QuotationVersion quotationVersion = new QuotationVersion(model.QuotationVersion.NumberOfGuests, model.QuotationVersion.ExtraInfo, "No description", reservation, formula, formulaSupplementItems, extraSupplementItems, eventAddress, billingAddress);
