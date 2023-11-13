@@ -48,7 +48,11 @@ namespace Foodtruck.Client.QuotationProcess.Components
         private string ChipStyle(bool condition) => "color:" + (condition ? Theme?.Palette.PrimaryContrastText : Theme?.Palette.PrimaryLighten);
         private Variant ChipVariant(bool condition) => condition ? Variant.Filled : Variant.Outlined;
 
-        private void ConfirmStartDate() => startDateConfirmed = true;
+        private void ConfirmStartDate()
+        {
+            startDateConfirmed = true;
+            Model.End = Model.Start;
+        }
         private void EditStartDate()
         {
             Model.End = null;
@@ -73,9 +77,9 @@ namespace Foodtruck.Client.QuotationProcess.Components
         // MudDatePicker Functions
         private bool IsDateAlreadyBooked(DateTime dateTime) =>
             reservations is not null && reservations.Any(reservation =>
-                dateTime.Date >= reservation.Start.AddDays(-1).Date &&
+                dateTime.Date >= reservation.Start.Date &&
                 dateTime.Date <= reservation.End.Date ||
-                dateTime.Date < DateTime.Now.Date);
+                dateTime.Date <= DateTime.Now.Date);
 
         private bool IsDateAvailableAsEnd(DateTime dateTime)
         {
@@ -88,12 +92,13 @@ namespace Foodtruck.Client.QuotationProcess.Components
                 .First();
 
             return reservations
-                .Any(reservation => dateTime.Date < Model.Start?.AddDays(1).Date || dateTime.Date >= firstReservation.Start.Date);
+                .Any(reservation => dateTime.Date < Model.Start?.Date || dateTime.Date >= firstReservation.Start.Date);
         }
 
         private string AdditionalDateClassesFunc(DateTime dateTime) =>
             Model.Start is null ? "" :
-            dateTime.Date == Model.Start?.Date ? "mud-range mud-range-start-selected" :
+            dateTime.Date == Model.Start?.Date && Model.Start?.Date == Model.End?.Date ? "mud-selected" :
+            dateTime.Date == Model.Start?.Date ? "mud-range mud-range-start-selected mud-theme-primary" :
             dateTime.Date == Model.End?.Date ? "mud-range mud-range-end-selected mud-theme-primary" :
             dateTime.Date > Model.Start?.Date && dateTime.Date < Model.End?.Date ? "mud-range mud-range-between mud-theme-primary" : "";
 
