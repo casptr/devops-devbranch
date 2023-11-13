@@ -77,6 +77,7 @@ namespace Server
             services.AddSwaggerGen(c =>
             {
                 c.CustomSchemaIds(x => $"{x.DeclaringType?.Name}.{x.Name}");
+                c.EnableAnnotations();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Foodtruck API", Version = "v1" });
             });
 
