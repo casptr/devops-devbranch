@@ -57,6 +57,6 @@ public class QuotationModel
 
         // Supplement lines
         FormulaSupplementLines = quotationVersion.FormulaSupplementLines;
-
+        ExtraSupplementLines = quotationVersion.ExtraSupplementLines;
     }
 }
