@@ -17,6 +17,8 @@ namespace Foodtruck.Client.QuotationProcess.Components
         [Inject]
         public QuotationProcessState QuotationProcessState { get; set; } = default!;
 
+        [Inject]
+        private IBrowserViewportService BrowserViewportService { get; set; }
 
         private IEnumerable<FormulaDto.Detail>? formulas;
         private List<string>? formulaSupplementNames = new();
@@ -42,13 +44,13 @@ namespace Foodtruck.Client.QuotationProcess.Components
             }
         }
 
-        private void ChooseFormula(FormulaDto.Detail formula)
+        private async Task ChooseFormula(FormulaDto.Detail formula)
         {
             QuotationProcessState.SetupFormulaChoiceFormModels(formula);
 
             if (QuotationProcessState.ChoiceFormModels.Count > 0)
             {
-                OpenChoicesDialog(formula);
+                await OpenChoicesDialog(formula);
             }
             else
             {
@@ -56,13 +58,17 @@ namespace Foodtruck.Client.QuotationProcess.Components
             }
         }
 
-        private void OpenChoicesDialog(FormulaDto.Detail formula)
+        private async Task OpenChoicesDialog(FormulaDto.Detail formula)
         {
             var parameters = new DialogParameters<FormulaDialog>();
             parameters.Add(dialog => dialog.Formula, formula);
             parameters.Add(dialog => dialog.OnSubmit, StateHasChanged);
 
-            DialogService.Show<FormulaDialog>($"{formula.Title} aanpassen", parameters);
+            Breakpoint currentBreakpoint = await BrowserViewportService.GetCurrentBreakpointAsync();
+            bool isMobileDialog = currentBreakpoint == Breakpoint.Xs;
+            DialogOptions dialogOptions = new DialogOptions() { FullScreen = isMobileDialog, CloseButton = isMobileDialog};
+
+            DialogService.Show<FormulaDialog>($"{formula.Title} aanpassen", parameters, dialogOptions);
         }
     }
 }
