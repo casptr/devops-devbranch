@@ -150,10 +150,11 @@ public class QuotationDocument : IDocument
             table.Cell().Element(CellStyle).AlignRight().Text($"");
             table.Cell().Element(CellStyle).AlignRight().Text($"");
 
-
-            ComposeSupplementLines(table, Model.FormulaSupplementLines, false);
+            if (Model.FormulaSupplementLines != null)
+                ComposeSupplementLines(table, Model.FormulaSupplementLines, false);
             TableRowSpacer(table);
-            ComposeSupplementLines(table, Model.ExtraSupplementLines, true);
+            if (Model.FormulaSupplementLines != null)
+                ComposeSupplementLines(table, Model.ExtraSupplementLines, true);
 
             ComposeQuotationTotals(table, QuotationTotalPrice, QuotationTotalVat);
 
@@ -168,18 +169,21 @@ public class QuotationDocument : IDocument
     {
         foreach (var item in supplementLines)
         {
-            int supplementVatPercentage = QuotationCalculator.CalculateSupplementVatPercentage(item);
-            Money supplementLineTotalPrice = QuotationCalculator.CalculateSupplementLineTotalPrice(item);
-            Money supplementLineTotalVat = QuotationCalculator.CalculateSupplementLineTotalVat(supplementLineTotalPrice, supplementVatPercentage);
-            
-            table.Cell().Element(CellStyle).AlignCenter().Text($"{(formulaSupplements ? item.Quantity : "")}");
-            table.Cell().Element(CellStyle).AlignLeft().Text($"{item.Name} btw {supplementVatPercentage}%");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{ (formulaSupplements ? new Money(item.SupplementPrice) : "")}");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{(formulaSupplements ? supplementLineTotalPrice : "")}");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{(formulaSupplements ? supplementLineTotalVat : "")}");
-        }
+                if (item != null)
+                {
+                    int supplementVatPercentage = QuotationCalculator.CalculateSupplementVatPercentage(item);
+                    Money supplementLineTotalPrice = QuotationCalculator.CalculateSupplementLineTotalPrice(item);
+                    Money supplementLineTotalVat = QuotationCalculator.CalculateSupplementLineTotalVat(supplementLineTotalPrice, supplementVatPercentage);
 
-        static IContainer CellStyle(IContainer container)
+                    table.Cell().Element(CellStyle).AlignCenter().Text($"{(formulaSupplements ? item.Quantity : "")}");
+                    table.Cell().Element(CellStyle).AlignLeft().Text($"{item.Name} btw {supplementVatPercentage}%");
+                    table.Cell().Element(CellStyle).AlignRight().Text($"{(formulaSupplements ? new Money(item.SupplementPrice) : "")}");
+                    table.Cell().Element(CellStyle).AlignRight().Text($"{(formulaSupplements ? supplementLineTotalPrice : "")}");
+                    table.Cell().Element(CellStyle).AlignRight().Text($"{(formulaSupplements ? supplementLineTotalVat : "")}");
+                }
+            }
+
+            static IContainer CellStyle(IContainer container)
         {
             return container.BorderVertical(1).BorderColor(Colors.Grey.Medium).PaddingHorizontal(5);
         }
