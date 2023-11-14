@@ -26,7 +26,7 @@ public class EmailService : IEmailService
     public async Task<bool> SendNewQuotationConfirmationToCustomer(QuotationDto.Detail quotation)
     {
         SendGridMessage msg = new SendGridMessage();
-        List<EmailAddress> recipients = new List<EmailAddress> { new EmailAddress(quotation.Customer.Email, quotation.Customer.Firstname + " " + quotation.Customer.Lastname)};
+        List<EmailAddress> recipients = new List<EmailAddress> { new EmailAddress(quotation.Customer!.Email, quotation.Customer.Firstname + " " + quotation.Customer.Lastname)};
         msg.SetFrom(ADMIN_EMAIL);
         msg.AddTos(recipients);
         msg.SetSubject("Blanche Offerte Aanvraag");
@@ -38,8 +38,8 @@ public class EmailService : IEmailService
 
     public async Task<bool> SendNewQuotationPdfToAdmin(QuotationDto.Detail quotation)
     {
-        string pdfToSendAsBase64 = await pdfService.GetQuotationPdfAsBase64(quotation, quotation.QuotationVersions.Last());
-        string customerFullName = quotation.Customer.Firstname + " " + quotation.Customer.Lastname;
+        string pdfToSendAsBase64 = await pdfService.GetQuotationPdfAsBase64(quotation, quotation.QuotationVersions!.Last());
+        string customerFullName = quotation.Customer!.Firstname + " " + quotation.Customer.Lastname;
        
         string filename = $"Offerte_{quotation.Id}_{quotation.Customer.Lastname}_{quotation.Customer.Firstname}";
         string subject = $"Nieuwe offerte aanvraag: {filename}";

@@ -10,17 +10,21 @@ using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Services.Quotations.Notifications;
 
 namespace Services.Quotations
 {
     public class QuotationService : IQuotationService
     {
         private readonly FoodtruckDbContext dbContext;
+        private readonly IMediator mediator;
 
-        public QuotationService(FoodtruckDbContext dbContext)
+        public QuotationService(FoodtruckDbContext dbContext, IMediator mediator)
         {
             this.dbContext = dbContext;
+            this.mediator = mediator;
         }
 
         public async Task<QuotationResult.Index> GetIndexAsync(QuotationRequest.Index request)
@@ -147,6 +151,10 @@ namespace Services.Quotations
 
             dbContext.Quotations.Add(newQuotation);
             await dbContext.SaveChangesAsync();
+
+            // Create notification - TODO: should real quotation be used here? Not DTO
+            QuotationDto.Detail quotationDto = await GetDetailAsync(newQuotation.Id);
+            await mediator.Publish(new QuotationCreatedNotification(quotationDto));
 
             return newQuotation.Id;
         }
