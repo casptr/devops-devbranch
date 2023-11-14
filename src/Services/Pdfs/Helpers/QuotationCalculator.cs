@@ -51,6 +51,7 @@ static class QuotationCalculator
     internal static Money CalculateExtraSupplementsTotalPrice(IEnumerable<QuotationSupplementLineDto>? extraSupplementLines)
     {
         decimal totalPrice = 0;
+        if(extraSupplementLines != null)
         foreach (var item in extraSupplementLines)
         {
             totalPrice += item.SupplementPrice * item.Quantity;
@@ -61,7 +62,8 @@ static class QuotationCalculator
     internal static Money CalculateExtraSupplementsTotalVat(IEnumerable<QuotationSupplementLineDto>? extraSupplementLines)
     {
         decimal totalVat = 0;
-        foreach (var item in extraSupplementLines)
+        if (extraSupplementLines != null)
+            foreach (var item in extraSupplementLines)
         {
             int itemVat = CalculateSupplementVatPercentage(item);
             Money itemTotalPrice = CalculateSupplementLineTotalPrice(item);

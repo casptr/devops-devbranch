@@ -18,10 +18,8 @@ public class QuotationDocument : IDocument
         Model = model;
     }
 
+    //TODO offertenummer implementeren
     Random randomNumber = new Random();
-
-
-
 
     public void Compose(IDocumentContainer container)
     {
@@ -50,7 +48,7 @@ public class QuotationDocument : IDocument
             {
                 column.Item().Width(200).Height(50).Placeholder();
                 column
-                    .Item().Text($"Offerte #10{randomNumber.NextInt64(25, 99)}")
+                    .Item().Text($"Offerte #{Model.Id}")
                     .FontSize(14).SemiBold().FontColor(Colors.Grey.Darken3);
 
                 column.Item().Text(text =>
@@ -73,7 +71,7 @@ public class QuotationDocument : IDocument
                 column.Item().AlignRight().Text("9300 Aalst");
                 column.Item().AlignRight().Text("BTW: 0825.292.925");
             });
-            //row.ConstantItem(175).Image(LogoImage);
+
         });
     }
 
@@ -95,9 +93,6 @@ public class QuotationDocument : IDocument
             });
 
             column.Item().BorderBottom(1).BorderColor(Colors.Grey.Darken1).Element(ComposeQuotationLinesTable);
-
-            //column.Item().BorderBottom(1).BorderColor(Colors.Grey.Darken1).Element(ComposeExtraSupplementsTable);
-
 
             if (!string.IsNullOrWhiteSpace(Model.ExtraInfo))
                 column.Item().PaddingTop(25).Element(ComposeComments);
@@ -169,7 +164,7 @@ public class QuotationDocument : IDocument
         });
     }
 
-    private void ComposeSupplementLines(TableDescriptor table, IEnumerable<QuotationSupplementLineDto> supplementLines, bool showPrices)
+    private void ComposeSupplementLines(TableDescriptor table, IEnumerable<QuotationSupplementLineDto> supplementLines, bool formulaSupplements)
     {
         foreach (var item in supplementLines)
         {
@@ -177,11 +172,11 @@ public class QuotationDocument : IDocument
             Money supplementLineTotalPrice = QuotationCalculator.CalculateSupplementLineTotalPrice(item);
             Money supplementLineTotalVat = QuotationCalculator.CalculateSupplementLineTotalVat(supplementLineTotalPrice, supplementVatPercentage);
             
-            table.Cell().Element(CellStyle).AlignCenter().Text($"{(showPrices ? item.Quantity : "")}");
+            table.Cell().Element(CellStyle).AlignCenter().Text($"{(formulaSupplements ? item.Quantity : "")}");
             table.Cell().Element(CellStyle).AlignLeft().Text($"{item.Name} btw {supplementVatPercentage}%");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{ (showPrices ? new Money(item.SupplementPrice) : "")}");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{(showPrices ? supplementLineTotalPrice : "")}");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{(showPrices ? supplementLineTotalVat : "")}");
+            table.Cell().Element(CellStyle).AlignRight().Text($"{ (formulaSupplements ? new Money(item.SupplementPrice) : "")}");
+            table.Cell().Element(CellStyle).AlignRight().Text($"{(formulaSupplements ? supplementLineTotalPrice : "")}");
+            table.Cell().Element(CellStyle).AlignRight().Text($"{(formulaSupplements ? supplementLineTotalVat : "")}");
         }
 
         static IContainer CellStyle(IContainer container)
@@ -213,11 +208,11 @@ public class QuotationDocument : IDocument
 
     private void TableRowSpacer(TableDescriptor table)
     {
-        table.Cell().Element(CellStyle).AlignCenter().Text("");
-        table.Cell().Element(CellStyle).AlignLeft().Text("");
-        table.Cell().Element(CellStyle).AlignRight().Text("");
-        table.Cell().Element(CellStyle).AlignRight().Text("");
-        table.Cell().Element(CellStyle).AlignRight().Text("");
+        table.Cell().Element(CellStyle).Text("");
+        table.Cell().Element(CellStyle).Text("");
+        table.Cell().Element(CellStyle).Text("");
+        table.Cell().Element(CellStyle).Text("");
+        table.Cell().Element(CellStyle).Text("");
         static IContainer CellStyle(IContainer container)
         {
             return container.BorderVertical(1).BorderColor(Colors.Grey.Medium).PaddingHorizontal(5);

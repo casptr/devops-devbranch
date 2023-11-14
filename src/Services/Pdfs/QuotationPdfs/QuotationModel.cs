@@ -13,12 +13,6 @@ namespace Services.Pdfs.QuotationPdfs;
 
 public class QuotationModel
 {
-        //public string? Firstname { get; set; }
-        //public string? Lastname { get; set; }
-        //public string? Email { get; set; }
-        //public string? Phone { get; set; }
-        //public string? CompanyName { get; set; }
-        //public string? CompanyNumber { get; set; }
     public CustomerDto.Detail Customer { get; set; }
     public int Id { get; set; }
     public int VersionNumber { get; set; }
@@ -43,13 +37,7 @@ public class QuotationModel
     public QuotationModel(QuotationDto.Detail quotationDto, QuotationVersionDto.Detail quotationVersion)
     {
         Customer = quotationDto.Customer;
-        //Firstname = quotationDto.Customer?.Firstname;
-        //Lastname = quotationDto.Customer?.Lastname;
-        //Email = quotationDto.Customer?.Email;
-        //Phone = quotationDto.Customer?.Phone;
-        //CompanyName = quotationDto.Customer?.CompanyName;
-        //CompanyNumber = quotationDto.Customer?.CompanyNumber;
-
+        Id = quotationVersion.Id;
         // Quotation details
         VersionNumber = quotationVersion.VersionNumber;
         NumberOfGuests = quotationVersion.NumberOfGuests;
@@ -69,9 +57,6 @@ public class QuotationModel
 
         // Supplement lines
         FormulaSupplementLines = quotationVersion.FormulaSupplementLines;
-        ExtraSupplementLines = quotationVersion.ExtraSupplementLines;
-
 
     }
-
 }
