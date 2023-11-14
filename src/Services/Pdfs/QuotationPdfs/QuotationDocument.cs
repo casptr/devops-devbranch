@@ -135,13 +135,14 @@ public class QuotationDocument : IDocument
                 header.Cell().Element(CellStyle).AlignCenter().Text("Omschrijving");
                 header.Cell().Element(CellStyle).AlignCenter().Text("Eenhprijs (€)");
                 header.Cell().Element(CellStyle).AlignCenter().Text("Bedrag (€)");
-                header.Cell().Element(CellStyle).AlignCenter().Text("BTW");
+                header.Cell().Element(CellStyle).AlignCenter().Text("BTW (€)");
 
                 static IContainer CellStyle(IContainer container)
                 {
                     return container.DefaultTextStyle(x => x.SemiBold().LineHeight((float)1.8)).PaddingVertical(0).Border(1).BorderColor(Colors.Grey.Darken1).Background(Colors.Grey.Lighten1);
                 }
             });
+
             table.Cell().Element(CellStyle).AlignCenter().Text("1");
             table.Cell().Element(CellStyle).Text($"Formule: {Model.Formula.Title}").SemiBold();
             table.Cell().Element(CellStyle).AlignRight().Text($"{formulaTotalPrice}");
@@ -155,9 +156,10 @@ public class QuotationDocument : IDocument
             table.Cell().Element(CellStyle).AlignRight().Text($"");
 
 
-            ComposeSupplementLines(table, Model.FormulaSupplementLines);
+            ComposeSupplementLines(table, Model.FormulaSupplementLines, false);
             TableRowSpacer(table);
-            ComposeSupplementLines(table, Model.ExtraSupplementLines);
+            ComposeSupplementLines(table, Model.ExtraSupplementLines, true);
+
             ComposeQuotationTotals(table, QuotationTotalPrice, QuotationTotalVat);
 
             static IContainer CellStyle(IContainer container)
@@ -167,19 +169,19 @@ public class QuotationDocument : IDocument
         });
     }
 
-    private void ComposeSupplementLines(TableDescriptor table,IEnumerable<QuotationSupplementLineDto> supplementLines)
+    private void ComposeSupplementLines(TableDescriptor table, IEnumerable<QuotationSupplementLineDto> supplementLines, bool showPrices)
     {
         foreach (var item in supplementLines)
         {
             int supplementVatPercentage = QuotationCalculator.CalculateSupplementVatPercentage(item);
             Money supplementLineTotalPrice = QuotationCalculator.CalculateSupplementLineTotalPrice(item);
             Money supplementLineTotalVat = QuotationCalculator.CalculateSupplementLineTotalVat(supplementLineTotalPrice, supplementVatPercentage);
-
-            table.Cell().Element(CellStyle).AlignCenter().Text($"{item.Quantity}");
+            
+            table.Cell().Element(CellStyle).AlignCenter().Text($"{(showPrices ? item.Quantity : "")}");
             table.Cell().Element(CellStyle).AlignLeft().Text($"{item.Name} btw {supplementVatPercentage}%");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(item.SupplementPrice)}");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{supplementLineTotalPrice}");
-            table.Cell().Element(CellStyle).AlignRight().Text($"€{supplementLineTotalVat}");
+            table.Cell().Element(CellStyle).AlignRight().Text($"{ (showPrices ? new Money(item.SupplementPrice) : "")}");
+            table.Cell().Element(CellStyle).AlignRight().Text($"{(showPrices ? supplementLineTotalPrice : "")}");
+            table.Cell().Element(CellStyle).AlignRight().Text($"{(showPrices ? supplementLineTotalVat : "")}");
         }
 
         static IContainer CellStyle(IContainer container)

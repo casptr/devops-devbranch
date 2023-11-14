@@ -2,6 +2,8 @@
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Web;
+using System.Globalization;
+using MudBlazor.Extensions;
 
 namespace Client.Extensions;
 
@@ -17,7 +19,7 @@ public static class ObjectExtensions
     //}
     
 
-    // Modified code to make it work with enum array
+    // Modified code to make it work with enum array and datetime
     public static string AsQueryString(this object obj)
     {
         var properties = from p in obj.GetType().GetProperties()
@@ -49,6 +51,13 @@ public static class ObjectExtensions
         {
             return propertyName + "=" + HttpUtility.UrlEncode(JsonSerializer.Serialize(value, new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() } }));
         }
+
+        if (type == typeof(DateTime))
+        {
+            var dateTimeValue = (DateTime)value;
+            return propertyName + "=" + HttpUtility.UrlEncode(dateTimeValue.ToIsoDateString());
+        }
+
 
         return propertyName + "=" + HttpUtility.UrlEncode(value.ToString());
     }

@@ -11,7 +11,7 @@
         <MudForm Model="@Model" @ref="@form" Validation="@(calendarValidator.ValidateValue)" ValidationDelay="0">
             <MudStack Spacing="5" AlignItems="AlignItems.Center" Style="width:fit-content">
                 <MudText Align="Align.Center" Class="d-flex gap-1">
-                    De truck wordt telkens om 11:00 geleverd en om 16:00 opgehaald
+                    Wanneer vindt het evenement plaats?
                 </MudText>
 
                 <MudStack Spacing="0">
@@ -74,7 +74,7 @@
 
                  <MudText Class="d-flex gap-1" Typo="Typo.body2">
                      <MudIcon Icon="@Icons.Material.Outlined.Info" Size="Size.Small" Color="Color.Info" />
-                     @(!startDateConfirmed ? "Gelieve een leverdatum te selecteren." : "Wanneer mag de truck opgehaald worden?")
+                     @(!startDateConfirmed ? "Kies een startdatum." : "Kies een einddatum.")
                 </MudText>
 
                 <MudStack Row Style="width:100%;">
@@ -82,18 +82,18 @@
                     {
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
                                    OnClick="ConfirmStartDate" Disabled="@(Model.Start is null)">
-                            Leverdatum bevestigen
+                            Startdatum bevestigen
                         </MudButton>
                     }
                     else
                     {
                         <MudButton Variant="Variant.Outlined" OnClick="EditStartDate">
-                            Leverdatum aanpassen
+                            Startdatum aanpassen
                         </MudButton>
 
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
                                    OnClick="Submit" Disabled="@(Model.End is null)">
-                            Doorgaan
+                            Einddatum bevestigen
                         </MudButton>
                     }
                 </MudStack>

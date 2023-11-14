@@ -16,14 +16,10 @@ namespace Foodtruck.Server.Controllers;
 public class QuotationController : Controller
 {
     private readonly IQuotationService quotationService;
-    private readonly IEmailService emailService;
-    private readonly IPdfService pdfService;
 
-    public QuotationController(IQuotationService quotationService, IEmailService emailService, IPdfService pdfService)
+    public QuotationController(IQuotationService quotationService)
     {
         this.quotationService = quotationService;
-        this.emailService = emailService;
-        this.pdfService = pdfService;
     }
 
     [SwaggerOperation("Returns a list of all the quotations.")]
@@ -33,16 +29,11 @@ public class QuotationController : Controller
         return await quotationService.GetIndexAsync(request);
     }
 
-
     [SwaggerOperation("Create a new quotation")]
     [HttpPost]  // TODO: Roles - Authorize(Roles = Roles.Administrator) 
     public async Task<IActionResult> Create(QuotationDto.Create model)
     {
         int quotationId = await quotationService.CreateAsync(model);
-
-        QuotationDto.Detail quotation = await GetDetail(quotationId);
-        await emailService.SendNewQuotationPdfToAdmin(quotation);
-        await emailService.SendNewQuotationConfirmationToCustomer(quotation);
 
         return CreatedAtAction(nameof(Create), quotationId);
     }

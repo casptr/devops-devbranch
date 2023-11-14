@@ -33,7 +33,7 @@ public abstract class ReservationDto
         public Validator()
         {
             RuleFor(s => s.Start).NotEmpty().Must(s => s?.Date > DateTime.Now.Date);
-            RuleFor(s => s.End).NotEmpty().Must(s => s?.Date > DateTime.Now.Date).Must((model, field) => field?.Date > model.Start?.Date);
+            RuleFor(s => s.End).NotEmpty().Must(s => s?.Date > DateTime.Now.Date).Must((model, field) => field?.Date >= model.Start?.Date);
         }
     }
 }

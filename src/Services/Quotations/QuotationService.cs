@@ -10,17 +10,21 @@ using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Services.Quotations.Notifications;
 
 namespace Services.Quotations
 {
     public class QuotationService : IQuotationService
     {
         private readonly FoodtruckDbContext dbContext;
+        private readonly IMediator mediator;
 
-        public QuotationService(FoodtruckDbContext dbContext)
+        public QuotationService(FoodtruckDbContext dbContext, IMediator mediator)
         {
             this.dbContext = dbContext;
+            this.mediator = mediator;
         }
 
         public async Task<QuotationResult.Index> GetIndexAsync(QuotationRequest.Index request)
@@ -135,8 +139,8 @@ namespace Services.Quotations
             }
 
 
-            Address eventAddress = new Address(model.QuotationVersion.EventAddress.Zip, model.QuotationVersion.EventAddress.City, model.QuotationVersion.EventAddress.Street, model.QuotationVersion.EventAddress.Zip);
-            Address billingAddress = new Address(model.QuotationVersion.BillingAddress.Zip, model.QuotationVersion.BillingAddress.City, model.QuotationVersion.BillingAddress.Street, model.QuotationVersion.BillingAddress.Zip);
+            Address eventAddress = new Address(model.QuotationVersion.EventAddress.Zip, model.QuotationVersion.EventAddress.City, model.QuotationVersion.EventAddress.Street, model.QuotationVersion.EventAddress.HouseNumber);
+            Address billingAddress = new Address(model.QuotationVersion.BillingAddress.Zip, model.QuotationVersion.BillingAddress.City, model.QuotationVersion.BillingAddress.Street, model.QuotationVersion.BillingAddress.HouseNumber);
             string reservationDescription = model.Customer.Firstname + " " + model.Customer.Lastname;
             Reservation reservation = new Reservation(model.QuotationVersion.Reservation.Start.Value, model.QuotationVersion.Reservation.End.Value,  reservationDescription);
             QuotationVersion quotationVersion = new QuotationVersion(model.QuotationVersion.NumberOfGuests, model.QuotationVersion.ExtraInfo, "No description", reservation, formula, formulaSupplementItems, extraSupplementItems, eventAddress, billingAddress);
@@ -147,6 +151,10 @@ namespace Services.Quotations
 
             dbContext.Quotations.Add(newQuotation);
             await dbContext.SaveChangesAsync();
+
+            // Create notification - TODO: should real quotation be used here? Not DTO
+            QuotationDto.Detail quotationDto = await GetDetailAsync(newQuotation.Id);
+            await mediator.Publish(new QuotationCreatedNotification(quotationDto));
 
             return newQuotation.Id;
         }
