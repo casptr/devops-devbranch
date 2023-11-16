@@ -31,6 +31,14 @@
         function backToTop() {
             window.scrollTo({ top: 0 });
         }
+
+        function setExitEvent() {
+            window.onbeforeunload = () => "";
+        }
+
+        function deleteExitEvent() {
+            window.onbeforeunload = () => { };
+        }
     </script>
 </body>
 

@@ -9,22 +9,12 @@
     </CascadingValue>
 </MudContainer>
 
-@* more advanced implementation:  https://stackoverflow.com/questions/68792911/detecting-when-a-user-leaves-i-e-by-closing-their-browser *@
-
-@if (QuotationProcessState.CurrentStepIndex != 0)
-{
-    <script>
-        window.onbeforeunload = function (event) {
-            return "";
-        }
-    </script>
-}
-
 @code {
     [Inject] private QuotationProcessState QuotationProcessState { get; set; } = default!;
 
-    [Inject] IJSRuntime JsRuntime { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Inject] private IJSRuntime JsRuntime { get; set; } = default!;
+
+    [Parameter] public RenderFragment ChildContent { get; set; } = default!;
 
     public int ActiveStepIndex => QuotationProcessState.CurrentStepIndex ?? 0;
     public QuotationProcessStep ActiveStep => Steps[ActiveStepIndex];
@@ -53,6 +43,12 @@
         if (Steps.Count - 1 == ActiveStepIndex)
             return;
 
+        if (ActiveStepIndex == 0)
+            JsRuntime.InvokeVoidAsync("setExitEvent");
+
+        if (ActiveStepIndex == 4)
+            JsRuntime.InvokeVoidAsync("deleteExitEvent");
+
         QuotationProcessState.CurrentStepIndex++;
         ActivateStep();
     }
@@ -71,6 +67,5 @@
         StateHasChanged();
         JsRuntime.InvokeVoidAsync("backToTop");
     }
-
 
 }
