@@ -88,7 +88,6 @@ Global
 		{80E3DB2F-EC05-44B4-82D4-98D8458C2F1D}.Release|x64.Build.0 = Release|Any CPU
 		{80E3DB2F-EC05-44B4-82D4-98D8458C2F1D}.Release|x86.ActiveCfg = Release|Any CPU
 		{80E3DB2F-EC05-44B4-82D4-98D8458C2F1D}.Release|x86.Build.0 = Release|Any CPU
-<<<<<<< Updated upstream
 		{6216C8D3-367D-4DA6-96F5-1E3704068946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6216C8D3-367D-4DA6-96F5-1E3704068946}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6216C8D3-367D-4DA6-96F5-1E3704068946}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -113,19 +112,6 @@ Global
 		{5C343DCA-9A3E-486B-9545-4EC981EF3E3A}.Release|x64.Build.0 = Release|Any CPU
 		{5C343DCA-9A3E-486B-9545-4EC981EF3E3A}.Release|x86.ActiveCfg = Release|Any CPU
 		{5C343DCA-9A3E-486B-9545-4EC981EF3E3A}.Release|x86.Build.0 = Release|Any CPU
-=======
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Debug|x64.Build.0 = Debug|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Debug|x86.Build.0 = Debug|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Release|x64.ActiveCfg = Release|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Release|x64.Build.0 = Release|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Release|x86.ActiveCfg = Release|Any CPU
-		{1280A792-6B18-4B8D-852F-79F2F83E79AC}.Release|x86.Build.0 = Release|Any CPU
 		{53362AD2-4D5C-47A7-B0CB-CA09BB4EAD2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{53362AD2-4D5C-47A7-B0CB-CA09BB4EAD2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53362AD2-4D5C-47A7-B0CB-CA09BB4EAD2B}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -138,7 +124,6 @@ Global
 		{53362AD2-4D5C-47A7-B0CB-CA09BB4EAD2B}.Release|x64.Build.0 = Release|Any CPU
 		{53362AD2-4D5C-47A7-B0CB-CA09BB4EAD2B}.Release|x86.ActiveCfg = Release|Any CPU
 		{53362AD2-4D5C-47A7-B0CB-CA09BB4EAD2B}.Release|x86.Build.0 = Release|Any CPU
->>>>>>> Stashed changes
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
