@@ -40,7 +40,7 @@ namespace Foodtruck.Client.QuotationProcess.Components
             bool useTestData = false;
             if (useTestData)
             {
-                ChooseFormula(formulas.ElementAt(2));
+                await ChooseFormula(formulas.ElementAt(2));
             }
         }
 

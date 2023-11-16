@@ -83,7 +83,7 @@ namespace Foodtruck.Client.QuotationProcess.Components
 
         private bool IsDateAvailableAsEnd(DateTime dateTime)
         {
-            if (reservations is null || Model.Start is null)
+            if (reservations is null || !reservations.Any() || Model.Start is null)
                 return true;
 
             ReservationDto.Index firstReservation = reservations

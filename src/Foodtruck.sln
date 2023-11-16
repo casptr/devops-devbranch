@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foodtruck.Persistence", "Pe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foodtruck.Fakers", "Fakers\Foodtruck.Fakers.csproj", "{6216C8D3-367D-4DA6-96F5-1E3704068946}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodTruck.Services", "Services\FoodTruck.Services.csproj", "{5C343DCA-9A3E-486B-9545-4EC981EF3E3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foodtruck.Services", "Services\Foodtruck.Services.csproj", "{5C343DCA-9A3E-486B-9545-4EC981EF3E3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

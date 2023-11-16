@@ -8,9 +8,9 @@ public class ExtraSupplementLine
     public int Quantity { get; set; }
 
     // override object.Equals
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
-        ExtraSupplementLine other = obj as ExtraSupplementLine;
+        ExtraSupplementLine? other = obj as ExtraSupplementLine;
 
         if (obj == null || GetType() != obj.GetType())
         {
