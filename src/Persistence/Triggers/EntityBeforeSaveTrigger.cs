@@ -3,7 +3,7 @@ using Domain;
 using Domain.Common;
 using EntityFrameworkCore.Triggered;
 
-namespace BogusStore.Persistence.Triggers;
+namespace Foodtruck.Persistence.Triggers;
 
 /// <summary>
 /// Acts like a database trigger but is database agnostic and executes on <see cref="BogusDbContext"/> SaveChanged(async) is called right before executing the query.

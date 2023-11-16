@@ -30,28 +30,29 @@ public class SupplementService : ISupplementService
     public async Task<SupplementDto.Detail> GetDetailAsync(int supplementId)
     {
         var response = await client.GetFromJsonAsync<SupplementDto.Detail>($"{endpoint}/{supplementId}");
-        return response;
+        return response!;
     }
 
-    //public async Task<int> CreateAsync(SupplementDto.Mutate request)
+    public async Task<SupplementResult.Mutate> CreateAsync(SupplementDto.Mutate request)
+    {   
+        var response = await client.PostAsJsonAsync(endpoint, request);
+        return await response.Content.ReadFromJsonAsync<SupplementResult.Mutate>() ?? default!;
+    }
+
+    public async Task<SupplementResult.Mutate> EditAsync(int supplementId, SupplementDto.Mutate model)
+    {
+        var response =  await client.PutAsJsonAsync($"{endpoint}/{supplementId}", model);
+        return await response.Content.ReadFromJsonAsync<SupplementResult.Mutate>() ?? default!;
+    }
+
+    public async Task DeleteAsync(int supplementId)
+    {
+        await client.DeleteAsync($"{endpoint}/{supplementId}");
+    }
+
+    //public async Task AddImage(int supplementId, SupplementDto.Mutate model)
     //{
-    //    var response = await client.PostAsJsonAsync(endpoint, request);
-    //    return await response.Content.ReadFromJsonAsync<int>();
+    //    await client.PostAsJsonAsync($"{endpoint}/{supplementId}/addimage", model);
     //}
 
-    //public async Task DeleteAsync(int supplementId)
-    //{
-    //    await client.DeleteAsync($"{endpoint}/{supplementId}");
-    //}
-
-    //public async Task EditAsync(int supplementId, SupplementDto.Mutate model)
-    //{
-    //    var response = await client.PutAsJsonAsync($"{endpoint}/{supplementId}", model);
-    //}
-
-
-    //public async Task AddImage(int supplementId)
-    //{
-    //    await client.PostAsJsonAsync($"{endpoint}/{supplementId}/addimage",supplementId);
-    //}
 }

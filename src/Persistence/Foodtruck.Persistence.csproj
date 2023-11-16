@@ -23,9 +23,8 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Domain\Domain.csproj" />
-		<ProjectReference Include="..\Fakers\Fakers.csproj" />
-		<!-- <ProjectReference Include="..\Fakers\BogusStore.Fakers.csproj" /> -->
+		<ProjectReference Include="..\Domain\Foodtruck.Domain.csproj" />
+		<ProjectReference Include="..\Fakers\Foodtruck.Fakers.csproj" />
 	</ItemGroup>
 
 </Project>

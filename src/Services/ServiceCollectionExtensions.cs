@@ -5,6 +5,7 @@ using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.Extensions.DependencyInjection;
+using Services.BlobFiles;
 using Services.Emails;
 using Services.Formulas;
 using Services.Pdfs;
@@ -29,6 +30,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IQuotationService, QuotationService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IPdfService, PdfService>();
+        services.AddScoped<IStorageService, BlobStorageService>();
         // Add more services here...
 
         return services;

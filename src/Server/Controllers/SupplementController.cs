@@ -37,33 +37,32 @@ public class SupplementController : ControllerBase
         return await supplementService.GetDetailAsync(supplementId);
     }
 
+    [SwaggerOperation("Creates a new supplement.")]
+    [HttpPost] // TODO: Roles - Authorize(Roles = Roles.Administrator)
+    public async Task<IActionResult> Create(SupplementDto.Mutate model)
+    {
+        var supplementId = await supplementService.CreateAsync(model);
+        return CreatedAtAction(nameof(Create), new { id = supplementId });
+    }
 
-    //[SwaggerOperation("Creates a new supplement.")]
-    //[HttpPost]  // TODO: Roles - Authorize(Roles = Roles.Administrator) 
-    //public async Task<IActionResult> Create(SupplementDto.Mutate model)
-    //{
-    //    var supplementId = await supplementService.CreateAsync(model);
-    //    return CreatedAtAction(nameof(Create), supplementId);
-    //}
+    [SwaggerOperation("Edites an existing supplement.")]
+    [HttpPut("{supplementId}")] // TODO: Roles - Authorize(Roles = Roles.Administrator)
+    public async Task<IActionResult> Edit(int supplementId, SupplementDto.Mutate model)
+    {
+        var result = await supplementService.EditAsync(supplementId, model);
+        return AcceptedAtAction(nameof(Edit), result);
+    }
 
-    //[SwaggerOperation("Edites an existing supplement.")]
-    //[HttpPut("{supplementId}")] // TODO: Roles - Authorize(Roles = Roles.Administrator)
-    //public async Task<IActionResult> Edit(int supplementId, SupplementDto.Mutate model)
-    //{
-    //    await supplementService.EditAsync(supplementId, model);
-    //    return NoContent();
-    //}
-
-    //[SwaggerOperation("Deletes an existing supplement in the catalog.")]
-    //[HttpDelete("{supplementId}")] // TODO: Roles - Authorize(Roles = Roles.Administrator)
-    //public async Task<IActionResult> Delete(int supplementId)
-    //{
-    //    await supplementService.DeleteAsync(supplementId);
-    //    return NoContent();
-    //}
+    [SwaggerOperation("Deletes an existing supplement in the catalog.")]
+    [HttpDelete("{supplementId}")] // TODO: Roles - Authorize(Roles = Roles.Administrator)
+    public async Task<IActionResult> Delete(int supplementId)
+    {
+        await supplementService.DeleteAsync(supplementId);
+        return NoContent();
+    }
 
     //[SwaggerOperation("Add image to existing supplement.")]
-    //[HttpPost("{supplementId}/addimage")]  
+    //[HttpPost("{supplementId}/addimage")]
     //public async Task<IActionResult> AddImage(int supplementId)
     //{
     //    await supplementService.AddImage(supplementId);

@@ -22,8 +22,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Client\Foodtruck.Client.csproj" />
-		<ProjectReference Include="..\Foodtruck.Persistence\Foodtruck.Persistence.csproj" />
-		<ProjectReference Include="..\Services\Services.csproj" />
+		<ProjectReference Include="..\Persistence\Foodtruck.Persistence.csproj" />
+		<ProjectReference Include="..\Services\Foodtruck.Services.csproj" />
 		<ProjectReference Include="..\Shared\Foodtruck.Shared.csproj" />
 	</ItemGroup>
 

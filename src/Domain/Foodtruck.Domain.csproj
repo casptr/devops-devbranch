@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Ardalis.GuardClauses" Version="4.1.1" />
+		<PackageReference Include="MimeTypesMap" Version="1.0.8" />
 	</ItemGroup>
 
 </Project>

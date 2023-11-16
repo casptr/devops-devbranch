@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Foodtruck.Shared.Supplements;
+﻿namespace Foodtruck.Shared.Supplements;
 
 public abstract class SupplementResult
 {
@@ -12,5 +6,11 @@ public abstract class SupplementResult
     {
         public IEnumerable<SupplementDto.Detail>? Supplements { get; set; }
         public int TotalAmount { get; set; }
+    }
+
+    public class Mutate
+    {
+        public int SupplementId { get; set; }
+        public IList<Uri>? UploadSasUris { get; set; }
     }
 }

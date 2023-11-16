@@ -1,11 +1,12 @@
-using BogusStore.Persistence.Triggers;
+using Foodtruck.Persistence.Triggers;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Foodtruck.Client.BlobFiles;
 using Foodtruck.Persistence;
-using Foodtruck.Persistence.Triggers;
 using Foodtruck.Server.Authentication;
 using Foodtruck.Server.Middleware;
 using Foodtruck.Shared.Formulas;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,6 @@ namespace Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BogusDbContext>();
             services.AddDbContext<FoodtruckDbContext>(options =>
             {
                 var conStrBuilder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("Foodtruck"))
@@ -39,13 +39,13 @@ namespace Server
                     Password = Configuration["MySql:Password"]
                 };
 
-                if(Configuration["MySql:Server"] != null)
+                if (Configuration["MySql:Server"] != null)
                     conStrBuilder["Server"] = Configuration["MySql:Server"];
 
                 var connectionString = conStrBuilder.ConnectionString;
 
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptions => mySqlOptions.EnableStringComparisonTranslations());
-                
+
                 if (Environment.IsDevelopment())
                 {
                     options.EnableDetailedErrors();
@@ -67,12 +67,12 @@ namespace Server
             services.AddFluentValidationClientsideAdapters();
             services.AddValidatorsFromAssemblyContaining<FormulaDto.Mutate.Validator>();
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.CustomSchemaIds(x => $"{x.DeclaringType?.Name}.{x.Name}");
-                c.EnableAnnotations();
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Foodtruck API", Version = "v1" });
-            });
+                options.CustomSchemaIds(type => type.DeclaringType is null ? $"{type.Name}" : $"{type.DeclaringType?.Name}.{type.Name}");
+                options.EnableAnnotations();
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Foodtruck API", Version = "v1" });
+            }).AddFluentValidationRulesToSwagger();
 
             //// (Fake) Authentication
             services.AddAuthentication("Fake Authentication")
@@ -102,6 +102,7 @@ namespace Server
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(QuotationCreatedAdminEmailHandler).Assembly));
             services.AddScoped<FoodTruckDataInitializer>();
             services.AddSendGrid(opt => opt.ApiKey = Configuration["SendGrid:ApiKey"]);
+            services.AddHttpClient<IStorageService, AzureBlobStorageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

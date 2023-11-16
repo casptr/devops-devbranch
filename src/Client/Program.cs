@@ -17,6 +17,7 @@ using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Pdfs;
 using Services.Pdfs;
 using Foodtruck.Client.Admin;
+using Foodtruck.Client.BlobFiles;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -51,6 +52,7 @@ builder.Services.AddScoped<IQuotationService, QuotationService>();
 builder.Services.AddScoped<QuotationProcessState>();
 builder.Services.AddScoped<IPdfService, PdfService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<IStorageService, AzureBlobStorageService>();
 
 builder.Services.AddMudServices();
 await builder.Build().RunAsync();

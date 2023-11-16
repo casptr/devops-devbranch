@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Domain/Domain.csproj" />
-    <ProjectReference Include="..\Services\Services.csproj" />
+    <ProjectReference Include="..\Domain\Foodtruck.Domain.csproj" />
+    <ProjectReference Include="..\Services\Foodtruck.Services.csproj" />
     <ProjectReference Include="..\Shared\Foodtruck.Shared.csproj" />
   </ItemGroup>
 	

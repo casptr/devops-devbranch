@@ -64,12 +64,21 @@ public class Supplement : Entity
     public void AddImageUrl(Uri imageUrl)
     {
         Guard.Against.Null(imageUrl, nameof(imageUrl));
+
         if (imageUrls.Any(x => x.Image == imageUrl))
-        {
             throw new ApplicationException($"{nameof(Supplement)} '{name}' already contains the imageUrl:{imageUrl}");
-        }
+        
         imageUrls.Add(new SupplementImage(imageUrl, this));
     }
 
+    public SupplementImage? GetSupplementImage(Uri imageUrl)
+    {
+        Guard.Against.Null(imageUrl, nameof(imageUrl));
+
+        if (!imageUrls.Any(x => x.Image == imageUrl))
+            throw new ApplicationException($"{nameof(Supplement)} '{name}' does not contain the imageUrl:{imageUrl}");
+        
+        return imageUrls.Where(url => url.Image == imageUrl).FirstOrDefault();
+    }
 
 }

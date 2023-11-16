@@ -10,7 +10,7 @@ namespace Domain.Supplements;
 
 public class SupplementImage : Entity
 {
-    public Supplement Supplement { get; }
+    public Supplement? Supplement { get; }
     public Uri? Image { get; }
 
     public SupplementImage(Uri image, Supplement supplement)
