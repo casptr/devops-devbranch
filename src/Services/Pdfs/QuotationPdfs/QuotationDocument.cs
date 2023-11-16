@@ -153,7 +153,7 @@ public class QuotationDocument : IDocument
             if (Model.FormulaSupplementLines != null)
                 ComposeSupplementLines(table, Model.FormulaSupplementLines, false);
             TableRowSpacer(table);
-            if (Model.FormulaSupplementLines != null)
+            if (Model.ExtraSupplementLines != null)
                 ComposeSupplementLines(table, Model.ExtraSupplementLines, true);
 
             ComposeQuotationTotals(table, QuotationTotalPrice, QuotationTotalVat);

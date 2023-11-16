@@ -6,11 +6,13 @@ using Services.Pdfs.QuotationPdfs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Pdfs.Helpers;
+[assembly: InternalsVisibleTo("Services.Tests")]
 
+namespace Services.Pdfs.Helpers;
 static class QuotationCalculator
 {
     public static int CalculateSupplementVatPercentage(QuotationSupplementLineDto supplementLine)
