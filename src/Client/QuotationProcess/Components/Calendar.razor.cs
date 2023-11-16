@@ -8,7 +8,7 @@ namespace Foodtruck.Client.QuotationProcess.Components
 {
     public partial class Calendar
     {
-        [CascadingParameter] private QuotationProcessStepControl QuotationProcessStepControl { get; set; }
+        [CascadingParameter] private QuotationProcessStepControl QuotationProcessStepControl { get; set; } = default!;
         [Inject] private QuotationProcessState QuotationProcessState { get; set; } = default!;
         [Inject] private IReservationService ReservationService { get; set; } = default!;
         [CascadingParameter] private MudTheme? Theme { get; set; }
@@ -68,8 +68,8 @@ namespace Foodtruck.Client.QuotationProcess.Components
                 return;
             }
 
-            Model.Start = Model.Start?.AddHours(11);
-            Model.End = Model.End?.AddHours(16);
+            Model.Start = Model.Start?.Date.AddHours(11);
+            Model.End = Model.End?.Date.AddHours(16);
             QuotationProcessState.ConfigureQuotationReservation(Model.Start, Model.End);
             QuotationProcessStepControl.NextStep();
         }
