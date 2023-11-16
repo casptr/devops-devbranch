@@ -53,5 +53,18 @@ namespace Foodtruck.Client.QuotationProcess.Components
             QuotationProcessState.PrintQuotation();
             QuotationProcessStepControl.NextStep();
         }
-    }
+
+        private async Task GoToOverview()
+        {
+			await form.Validate();
+
+			if (!form.IsValid)
+				return;
+
+			QuotationProcessState.ConfigureQuotationCustomerDetails();
+			QuotationProcessState.PrintQuotation();
+            QuotationProcessStepControl.GoToStep(4, true);
+		}
+
+	}
 }

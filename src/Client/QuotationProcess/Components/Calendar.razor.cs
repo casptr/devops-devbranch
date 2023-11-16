@@ -74,6 +74,22 @@ namespace Foodtruck.Client.QuotationProcess.Components
             QuotationProcessStepControl.NextStep();
         }
 
+        private async void GoToOverview()
+        {
+            await form.Validate();
+
+            if (!form.IsValid)
+            {
+                return;
+            }
+
+            Model.Start = Model.Start?.Date.AddHours(11);
+            Model.End = Model.End?.Date.AddHours(16);
+            QuotationProcessState.ConfigureQuotationReservation(Model.Start, Model.End);
+            QuotationProcessState.ConfigureQuotationExtraSupplements();
+            QuotationProcessStepControl.GoToStep(4, true);
+        }
+
         // MudDatePicker Functions
         private bool IsDateAlreadyBooked(DateTime dateTime) =>
             reservations is not null && reservations.Any(reservation =>

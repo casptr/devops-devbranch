@@ -3,99 +3,107 @@
 
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2" Style="overflow:hidden; position:relative;">
-    <div class="d-flex justify-center align-center">
-        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
-        <MudButton Color="Color.Inherit" OnClick="@ToggleStartDrawer" StartIcon="@(open ? Icons.Material.Filled.West : Icons.Material.Filled.East)" Class="mx-2">Open overzicht</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
-    </div>
-    @if (supplements is null)
-    {
-        <p>Loading...</p>
-    }
-    else
-    {
-        <MudDrawerContainer>
-            <MudDrawer @bind-Open="@open" Width="20%" Anchor="Anchor.Start" Elevation="0" Variant="@DrawerVariant.Persistent" Style="margin-top: 12px">
-                <MudDrawerHeader>
-                    <MudText Typo="Typo.h6">Overzicht extra items</MudText>
-                </MudDrawerHeader>
-                <MudStack Class="pa-3">
-                   @*  TODO remove placeholder below *@
-                    @if (count == 10)
-                    {
-                        <MudPaper Class="pa-2">
-                            <MudStack Row="true" AlignItems="AlignItems.Center">
-                                <MudImage Height="80" Src="https://i.seadn.io/gae/2hDpuTi-0AMKvoZJGd-yKWvK4tKdQr_kLIpB_qSeMau2TNGCNidAosMEvrEXFO9G6tmlFlPQplpwiqirgrIPWnCKMvElaYgI-HiVvXc?auto=format&dpr=1&w=1000" />
-                                <MudStack>
-                                    <MudStack Row="true" Justify="Justify.SpaceBetween">
-                                        <MudText Typo="Typo.body1" Style="font-weight: bold; max-width: 86px; overflow: scroll">Hello ffffffffffffffffffffffff</MudText>
-                                        <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" />
-                                    </MudStack>
-                                    <div style="width: 70%">
-                                        <MudNumericField T="int" Variant="Variant.Outlined" Style="height: 2rem;" />
-                                    </div>
-                                </MudStack>
-                            </MudStack>
-                        </MudPaper>
-                    }
+	<div class="d-flex justify-center align-center">
+		@if (QuotationProcessState.ReachedEnd == true)
+		{
+			<MudButton Color="Color.Inherit" OnClick="@ToggleStartDrawer" StartIcon="@(open ? Icons.Material.Filled.West : Icons.Material.Filled.East)" Class="mx-2">Open overzicht</MudButton>
+			<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="GoToOverview">Keer terug naar overzicht</MudButton>
+		}
+		else
+		{
+			<MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
+			<MudButton Color="Color.Inherit" OnClick="@ToggleStartDrawer" StartIcon="@(open ? Icons.Material.Filled.West : Icons.Material.Filled.East)" Class="mx-2">Open overzicht</MudButton>
+			<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
+		}
+	</div>
+	@if (supplements is null)
+	{
+		<p>Loading...</p>
+	}
+	else
+	{
+		<MudDrawerContainer>
+			<MudDrawer @bind-Open="@open" Width="20%" Anchor="Anchor.Start" Elevation="0" Variant="@DrawerVariant.Persistent" Style="margin-top: 12px">
+				<MudDrawerHeader>
+					<MudText Typo="Typo.h6">Overzicht extra items</MudText>
+				</MudDrawerHeader>
+				<MudStack Class="pa-3">
+					@*  TODO remove placeholder below *@
+					@if (count == 10)
+					{
+						<MudPaper Class="pa-2">
+							<MudStack Row="true" AlignItems="AlignItems.Center">
+								<MudImage Height="80" Src="https://i.seadn.io/gae/2hDpuTi-0AMKvoZJGd-yKWvK4tKdQr_kLIpB_qSeMau2TNGCNidAosMEvrEXFO9G6tmlFlPQplpwiqirgrIPWnCKMvElaYgI-HiVvXc?auto=format&dpr=1&w=1000" />
+								<MudStack>
+									<MudStack Row="true" Justify="Justify.SpaceBetween">
+										<MudText Typo="Typo.body1" Style="font-weight: bold; max-width: 86px; overflow: scroll">Hello ffffffffffffffffffffffff</MudText>
+										<MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" />
+									</MudStack>
+									<div style="width: 70%">
+										<MudNumericField T="int" Variant="Variant.Outlined" Style="height: 2rem;" />
+									</div>
+								</MudStack>
+							</MudStack>
+						</MudPaper>
+					}
 
-                    @foreach (var extraSupplementLine in QuotationProcessState.ExtraSupplementLines)
-                    {
-                        <MudPaper Class="pa-2">
-                            <MudStack Row="true" AlignItems="AlignItems.Center">
-                                <MudImage Height="80" Width="80" Style="min-width: 80px;" ObjectFit="ObjectFit.Cover" Src="@extraSupplementLine.Supplement.ImageUrls?.Last().ToString()" />
-                                <MudStack>
-                                    <MudStack Row="true" Justify="Justify.SpaceBetween" Spacing="0">
-                                        <MudText Typo="Typo.body1" Style="font-weight: bold; max-width: 86px; overflow: scroll">@extraSupplementLine.Supplement.Name</MudText>
-                                        <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" OnClick="() => QuotationProcessState.RemoveExtraSupplementLine(extraSupplementLine)" />
-                                    </MudStack>
-                                    <div style="width: 70%">
-                                        <MudNumericField Variant="Variant.Outlined" Style="height: 2rem;" @bind-Value="extraSupplementLine.Quantity" Min="1" Max="extraSupplementLine.Supplement.AmountAvailable" />
-                                    </div>
-                                </MudStack>
-                            </MudStack>
-                        </MudPaper>
-                    }
+					@foreach (var extraSupplementLine in QuotationProcessState.ExtraSupplementLines)
+					{
+						<MudPaper Class="pa-2">
+							<MudStack Row="true" AlignItems="AlignItems.Center">
+								<MudImage Height="80" Width="80" Style="min-width: 80px;" ObjectFit="ObjectFit.Cover" Src="@extraSupplementLine.Supplement.ImageUrls?.Last().ToString()" />
+								<MudStack>
+									<MudStack Row="true" Justify="Justify.SpaceBetween" Spacing="0">
+										<MudText Typo="Typo.body1" Style="font-weight: bold; max-width: 86px; overflow: scroll">@extraSupplementLine.Supplement.Name</MudText>
+											<MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" OnClick="() => QuotationProcessState.RemoveExtraSupplementLine(extraSupplementLine)" />
+										</MudStack>
+										<div style="width: 70%">
+											<MudNumericField Variant="Variant.Outlined" Style="height: 2rem;" @bind-Value="extraSupplementLine.Quantity" Min="1" Max="extraSupplementLine.Supplement.AmountAvailable" />
+										</div>
+									</MudStack>
+								</MudStack>
+							</MudPaper>
+					}
 
-                </MudStack>
-            </MudDrawer>
+				</MudStack>
+			</MudDrawer>
 
-            <MudGrid Justify="Justify.FlexStart" Style="@($"width: {(open == true ? "80%" : "100%")}; margin-top: 0;")">
+			<MudGrid Justify="Justify.FlexStart" Style="@($"width: {(open == true ? "80%" : "100%")}; margin-top: 0;")">
 
 
 
-                @if (supplements != null)
-                {
-                    @foreach (var supplement in supplements)
-                    {
-                        <MudItem lg="3" md="4" sm="6" xs="12">
-                            <MudCard Outlined="true" Class="d-flex flex-column" Style="height: 100%">
-                                <MudCardMedia Image="@supplement?.Supplement.ImageUrls?.Last().ToString()" Height="225" />
-                                <MudCardContent>
-                                    <MudText Typo="Typo.h5" Style="font-weight: bold;">@supplement?.Supplement.Name</MudText>
-                                    <MudText Typo="Typo.body2">Aantal beschikbaar: @supplement?.Supplement.AmountAvailable</MudText>
-                                    <MudText Typo="Typo.body1" Class="mt-2">@supplement?.Supplement.Description</MudText>
-                                </MudCardContent>
-                                <MudCardActions Class="mt-auto px-4">
-                                    <MudStack Row="true" AlignItems="AlignItems.Center">
+				@if (supplements != null)
+				{
+					@foreach (var supplement in supplements)
+					{
+						<MudItem lg="3" md="4" sm="6" xs="12">
+							<MudCard Outlined="true" Class="d-flex flex-column" Style="height: 100%">
+								<MudCardMedia Image="@supplement?.Supplement.ImageUrls?.Last().ToString()" Height="225" />
+								<MudCardContent>
+									<MudText Typo="Typo.h5" Style="font-weight: bold;">@supplement?.Supplement.Name</MudText>
+										<MudText Typo="Typo.body2">Aantal beschikbaar: @supplement?.Supplement.AmountAvailable</MudText>
+										<MudText Typo="Typo.body1" Class="mt-2">@supplement?.Supplement.Description</MudText>
+									</MudCardContent>
+									<MudCardActions Class="mt-auto px-4">
+										<MudStack Row="true" AlignItems="AlignItems.Center">
 
-                                        @{
-                                            int maxAmount = QuotationProcessState.CalculateMaxAmountToAdd(supplement!);
-                                            bool canAddSupplement = maxAmount != 0;
-                                        }
-                                        <div style="width: 4.5rem;">
-                                            <MudNumericField T="int" Variant="Variant.Outlined" Disabled="!canAddSupplement" Min="0" Max="maxAmount" Style="height: 3rem;" @bind-Value="supplement.Quantity" />
-                                        </div>
-                                        <MudButton Color="Color.Primary" Style="height: 46px;margin-bottom: -5px" Disabled="!canAddSupplement" OnClick="() => {AddSupplement(supplement.Supplement, supplement.Quantity); supplement.Quantity = 0;}">Toevoegen</MudButton>
-                                    </MudStack>
-                                </MudCardActions>
-                            </MudCard>
-                        </MudItem>
-                    }
-                }
-            </MudGrid>
-        </MudDrawerContainer>
-    }
+											@{
+											int maxAmount = QuotationProcessState.CalculateMaxAmountToAdd(supplement!);
+											bool canAddSupplement = maxAmount != 0;
+										}
+										<div style="width: 4.5rem;">
+											<MudNumericField T="int" Variant="Variant.Outlined" Disabled="!canAddSupplement" Min="0" Max="maxAmount" Style="height: 3rem;" @bind-Value="supplement.Quantity" />
+										</div>
+										<MudButton Color="Color.Primary" Style="height: 46px;margin-bottom: -5px" Disabled="!canAddSupplement" OnClick="() => {AddSupplement(supplement.Supplement, supplement.Quantity); supplement.Quantity = 0;}">Toevoegen</MudButton>
+									</MudStack>
+								</MudCardActions>
+							</MudCard>
+						</MudItem>
+					}
+				}
+			</MudGrid>
+		</MudDrawerContainer>
+	}
 
 
 

@@ -3,101 +3,110 @@
 @using Foodtruck.Shared.Reservations;
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
-    <MudStack Spacing="10" AlignItems="AlignItems.Center">
-        <MudText Typo="Typo.h4" Align="Align.Center">
-            Selecteer een datum
-        </MudText>
+	<MudStack Spacing="10" AlignItems="AlignItems.Center">
+		<MudText Typo="Typo.h4" Align="Align.Center">
+			Selecteer een datum
+		</MudText>
 
-        <MudForm Model="@Model" @ref="@form" Validation="@(calendarValidator.ValidateValue)" ValidationDelay="0">
-            <MudStack Spacing="5" AlignItems="AlignItems.Center" Style="width:fit-content">
-                <MudText Align="Align.Center" Class="d-flex gap-1">
-                    Wanneer vindt het evenement plaats?
-                </MudText>
+		<MudForm Model="@Model" @ref="@form" Validation="@(calendarValidator.ValidateValue)" ValidationDelay="0">
+			<MudStack Spacing="5" AlignItems="AlignItems.Center" Style="width:fit-content">
+				<MudText Align="Align.Center" Class="d-flex gap-1">
+					Wanneer vindt het evenement plaats?
+				</MudText>
 
-                <MudStack Spacing="0">
-                    <MudCard Elevation="1" Class="calendar-card pa-5">
-                        <MudGrid Justify="Justify.Center" Class="flex-wrap" Spacing="1">
-                            <MudItem xs="12" sm="4">
-                                <MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
+				<MudStack Spacing="0">
+					<MudCard Elevation="1" Class="calendar-card pa-5">
+						<MudGrid Justify="Justify.Center" Class="flex-wrap" Spacing="1">
+							<MudItem xs="12" sm="4">
+								<MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
 
-                                     <MudText Style="@ChipStyle(true)">
-                                         Van
-                                     </MudText>
+										<MudText Style="@ChipStyle(true)">
+											Van
+										</MudText>
 
-                                     <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(!startDateConfirmed)"
-                                              OnClick="@EditStartDate" Style="@ChipStyle(true)">
-                                         @(Model.Start is null ? "/" : "📅 " + Model.Start?.ToString("dd / MM / yyyy"))
-                                    </MudChip>
+										<MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(!startDateConfirmed)"
+												 OnClick="@EditStartDate" Style="@ChipStyle(true)">
+											@(Model.Start is null ? "/" : "📅 " + Model.Start?.ToString("dd / MM / yyyy"))
+										</MudChip>
 
-                                </MudStack>
-                            </MudItem>
-                            <MudItem xs="1" Class="d-flex justify-center align-center">
-                                <MudIcon Icon="@Icons.Material.Filled.ArrowRightAlt" Size="Size.Medium" Style="@ChipStyle(false)" Class="@(startDateConfirmed ? "" : "invisible" )" />
-                            </MudItem>
-                            <MudItem xs="12" sm="4">
-                                <MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
+									</MudStack>
+								</MudItem>
+								<MudItem xs="1" Class="d-flex justify-center align-center">
+									<MudIcon Icon="@Icons.Material.Filled.ArrowRightAlt" Size="Size.Medium" Style="@ChipStyle(false)" Class="@(startDateConfirmed ? "" : "invisible" )" />
+								</MudItem>
+								<MudItem xs="12" sm="4">
+									<MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
 
-                                     <MudText Style="@ChipStyle(startDateConfirmed)">
-                                         Tot
-                                     </MudText>
+										<MudText Style="@ChipStyle(startDateConfirmed)">
+											Tot
+										</MudText>
 
-                                     <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(startDateConfirmed)">
-                                         @(Model.End is null ? "/" : "📅 " + Model.End?.ToString("dd / MM / yyyy"))
-                                    </MudChip>
+										<MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(startDateConfirmed)">
+											@(Model.End is null ? "/" : "📅 " + Model.End?.ToString("dd / MM / yyyy"))
+										</MudChip>
 
-                                </MudStack>
-                            </MudItem>
-                        </MudGrid>
-                    </MudCard>
+									</MudStack>
+								</MudItem>
+							</MudGrid>
+						</MudCard>
 
-                    <div class="relative">
-                        @if (loading)
-                        {
-                            <div class="calendar-loading">
-                                <MudStack Row Spacing="7" AlignItems="AlignItems.Center" Justify="Justify.Center" Class="flex-grow-1">
-                                     <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate />
-                                     <MudText>Reservaties ophalen..</MudText>
-                                 </MudStack>
-                             </div>
-                        }
+						<div class="relative">
+							@if (loading)
+						{
+							<div class="calendar-loading">
+								<MudStack Row Spacing="7" AlignItems="AlignItems.Center" Justify="Justify.Center" Class="flex-grow-1">
+										<MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate />
+										<MudText>Reservaties ophalen..</MudText>
+									</MudStack>
+								</div>
+						}
 
-                        <MudDatePicker @bind-Date="Model.Start" For="@(() => Model.Start)" Class="@(startDateConfirmed ? "d-none" : "")"
-                                       PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1"
-                                        IsDateDisabledFunc="IsDateAlreadyBooked" />
+						<MudDatePicker @bind-Date="Model.Start" For="@(() => Model.Start)" Class="@(startDateConfirmed ? "d-none" : "")"
+									   PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1"
+										   IsDateDisabledFunc="IsDateAlreadyBooked" />
 
-                         <MudDatePicker @bind-Date="Model.End" For="@(() => Model.End)" Class="@(!startDateConfirmed ? "d-none" : "")"
-                                        PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1"
-                                        IsDateDisabledFunc="IsDateAvailableAsEnd" AdditionalDateClassesFunc="AdditionalDateClassesFunc" PickerMonth="@PickerMonth" />
-                     </div>
+							<MudDatePicker @bind-Date="Model.End" For="@(() => Model.End)" Class="@(!startDateConfirmed ? "d-none" : "")"
+										   PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1"
+										   IsDateDisabledFunc="IsDateAvailableAsEnd" AdditionalDateClassesFunc="AdditionalDateClassesFunc" PickerMonth="@PickerMonth" />
+						</div>
 
-                 </MudStack>
+					</MudStack>
 
-                 <MudText Class="d-flex gap-1" Typo="Typo.body2">
-                     <MudIcon Icon="@Icons.Material.Outlined.Info" Size="Size.Small" Color="Color.Info" />
-                     @(!startDateConfirmed ? "Kies een startdatum." : "Kies een einddatum.")
-                </MudText>
+					<MudText Class="d-flex gap-1" Typo="Typo.body2">
+						<MudIcon Icon="@Icons.Material.Outlined.Info" Size="Size.Small" Color="Color.Info" />
+						@(!startDateConfirmed ? "Kies een startdatum." : "Kies een einddatum.")
+					</MudText>
 
-                <MudStack Row Style="width:100%;">
-                     @if (!startDateConfirmed)
-                    {
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
-                                   OnClick="ConfirmStartDate" Disabled="@(Model.Start is null)">
-                            Startdatum bevestigen
-                        </MudButton>
-                    }
-                    else
-                    {
-                        <MudButton Variant="Variant.Outlined" OnClick="EditStartDate">
-                            Startdatum aanpassen
-                        </MudButton>
-
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
-                                   OnClick="Submit" Disabled="@(Model.End is null)">
-                            Einddatum bevestigen
-                        </MudButton>
-                    }
-                </MudStack>
-            </MudStack>
-        </MudForm>
-    </MudStack>
+					<MudStack Row Style="width:100%;">
+						@if (!startDateConfirmed)
+					{
+						<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
+								   OnClick="ConfirmStartDate" Disabled="@(Model.Start is null)">
+							Startdatum bevestigen
+						</MudButton>
+					}
+					else
+					{
+						<MudButton Variant="Variant.Outlined" OnClick="EditStartDate">
+							Startdatum aanpassen
+						</MudButton>
+						@if (QuotationProcessState.ReachedEnd)
+						{
+							<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
+									   OnClick="GoToOverview" Disabled="@(Model.End is null)">
+								Einddatum bevestigen
+							</MudButton>
+						}
+						else
+						{
+							<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
+									   OnClick="Submit" Disabled="@(Model.End is null)">
+								Einddatum bevestigen
+							</MudButton>
+						}
+					}
+				</MudStack>
+			</MudStack>
+		</MudForm>
+	</MudStack>
 </MudContainer>

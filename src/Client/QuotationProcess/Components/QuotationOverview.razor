@@ -7,246 +7,249 @@
 @inject IQuotationService QuotationService;
 
 <MudStack Spacing="5">
-    <MudText Typo="Typo.h4" Align="Align.Center">
-        Overzicht aanvraag
-    </MudText>
+	<MudText Typo="Typo.h4" Align="Align.Center">
+		Overzicht aanvraag
+	</MudText>
 
-    @*     <MudText Typo="Typo.h6">Levering</MudText> *@
-    <MudPaper Style="display:grid" Elevation="1">
-        @SectionHeader("Levering", 0)
-        <div class="pa-5">
-            <MudGrid Justify="Justify.Center" Class="flex-wrap" Spacing="1">
-                <MudItem xs="12" sm="4">
-                    <MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
-                         <MudText>
-                             Levering op
-                             <MudChip Size="Size.Large" Color="Color.Primary" Variant="Variant.Filled">
-                                 @(Reservation.Start is null ? "/" : "📅 " + Reservation.Start?.ToString("dd / MM / yyyy"))
-                            </MudChip>
-                            om 11u
-                        </MudText>
-                    </MudStack>
-                </MudItem>
-                <MudItem xs="1" Class="d-flex justify-center align-center">
-                    <MudIcon Icon="@Icons.Material.Filled.ArrowRightAlt" Size="Size.Medium" Style="" />
-                </MudItem>
-                <MudItem xs="12" sm="5">
-                    <MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
+	@*     <MudText Typo="Typo.h6">Levering</MudText> *@
+	<MudPaper Style="display:grid" Elevation="1">
+		@SectionHeader("Levering", 0)
+		<div class="pa-5">
+			<MudGrid Justify="Justify.Center" Class="flex-wrap" Spacing="1">
+				<MudItem xs="12" sm="4">
+					<MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
+							<MudText>
+								Levering op
+								<MudChip Size="Size.Large" Color="Color.Primary" Variant="Variant.Filled">
+									@(Reservation.Start is null ? "/" : "📅 " + Reservation.Start?.ToString("dd / MM / yyyy"))
+								</MudChip>
+								om 11u
+							</MudText>
+						</MudStack>
+					</MudItem>
+					<MudItem xs="1" Class="d-flex justify-center align-center">
+						<MudIcon Icon="@Icons.Material.Filled.ArrowRightAlt" Size="Size.Medium" Style="" />
+					</MudItem>
+					<MudItem xs="12" sm="5">
+						<MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
 
-                         <MudText Style="">
-                             Opgehaald op
-                         </MudText>
+							<MudText Style="">
+								Opgehaald op
+							</MudText>
 
-                         <MudChip Size="Size.Large" Color="Color.Primary" Variant="Variant.Filled">
-                             @(Reservation.End is null ? "/" : "📅 " + Reservation.End?.ToString("dd / MM / yyyy"))
-                        </MudChip>
-                        om 16u
-                    </MudStack>
-                </MudItem>
-            </MudGrid>
-        </div>
-    </MudPaper>
+							<MudChip Size="Size.Large" Color="Color.Primary" Variant="Variant.Filled">
+								@(Reservation.End is null ? "/" : "📅 " + Reservation.End?.ToString("dd / MM / yyyy"))
+							</MudChip>
+							om 16u
+						</MudStack>
+					</MudItem>
+				</MudGrid>
+			</div>
+		</MudPaper>
 
-    @*     <MudText Typo="Typo.h6">Formule</MudText> *@
-    <MudPaper Style="display:grid" Elevation="1">
-        @SectionHeader("Formule", 1)
-        <div class="pa-5">
-            <MudGrid>
-                <MudItem xs="1">
-                    <MudImage Src="@Formula.ImageUrl?.ToString()" Style="width: 100%; height: 100%; object-fit:cover" Alt="@Formula.Title" Class="rounded-lg" />
-                </MudItem>
-                <MudItem>
-                    <h1>@Formula.Title</h1>
-                    <br />
-                    @Formula.Description
-                </MudItem>
-            </MudGrid> <br />
-            Inbegrepen:
-            <br />....<br />
-            <br />
-            @if (FormulaChoiceFormItems.Any())
-            {
-                <span>Uw keuzes:</span>
-                <MudPaper Class="pa-2" Elevation="0">
-                    @foreach (FormulaChoiceFormItem supplement in FormulaChoiceFormItems)
-                    {
-                        <MudGrid Class="my-1">
-                            <MudItem Class="d-flex align-center justify-start">
-                                <MudImage Src="@(supplement.Supplement.ImageUrls?.ElementAt(0).ToString())" Width="50" Height="50" Style="margin:-15px 0px;object-fit:cover" Class="rounded" />
-                            </MudItem>
+		@*     <MudText Typo="Typo.h6">Formule</MudText> *@
+		<MudPaper Style="display:grid" Elevation="1">
+			@SectionHeader("Formule", 1)
+		<div class="pa-5">
+			<MudGrid>
+				<MudItem xs="1">
+					<MudImage Src="@Formula.ImageUrl?.ToString()" Style="width: 100%; height: 100%; object-fit:cover" Alt="@Formula.Title" Class="rounded-lg" />
+				</MudItem>
+				<MudItem>
+					<h1>@Formula.Title</h1>
+					<br />
+					@Formula.Description
+				</MudItem>
+			</MudGrid> <br />
+			Inbegrepen:
+			<br />....<br />
+			<br />
+			@if (FormulaChoiceFormItems.Any())
+			{
+				<span>Uw keuzes:</span>
+				<MudPaper Class="pa-2" Elevation="0">
+					@foreach (FormulaChoiceFormItem supplement in FormulaChoiceFormItems)
+					{
+						<MudGrid Class="my-1">
+							<MudItem Class="d-flex align-center justify-start">
+								<MudImage Src="@(supplement.Supplement.ImageUrls?.ElementAt(0).ToString())" Width="50" Height="50" Style="margin:-15px 0px;object-fit:cover" Class="rounded" />
+							</MudItem>
 
-                            <MudItem xs="5" Class="d-flex align-center justify-start">
-                                <MudText>@(supplement.Supplement.Name)</MudText>
-                                </MudItem>
+							<MudItem xs="5" Class="d-flex align-center justify-start">
+								<MudText>@(supplement.Supplement.Name)</MudText>
+							</MudItem>
 
-                                <MudItem xs="3" Class="d-flex align-center justify-start">
+							<MudItem xs="3" Class="d-flex align-center justify-start">
 
-                                    x @supplement.Quantity
+								x @supplement.Quantity
 
-                                </MudItem>
+							</MudItem>
 
-                            </MudGrid>
-                        <MudDivider />
-                    }
-                </MudPaper>
-            }
-        </div>
-    </MudPaper>
+						</MudGrid>
+						<MudDivider />
+					}
+				</MudPaper>
+			}
+		</div>
+	</MudPaper>
 
-    @*     <MudText Typo="Typo.h6">Extra's</MudText> *@
-    <MudPaper Style="display:grid" Elevation="1">
-        @SectionHeader("Extra's", 2)
-        <div class="pa-5">
-            Extra's:
-            <MudPaper Class="pa-2" Elevation="0">
-                @if (ExtraSupplementLines.Any())
-                {
+	@*     <MudText Typo="Typo.h6">Extra's</MudText> *@
+	<MudPaper Style="display:grid" Elevation="1">
+		@SectionHeader("Extra's", 2)
+		<div class="pa-5">
+			Extra's:
+			<MudPaper Class="pa-2" Elevation="0">
+				@if (ExtraSupplementLines.Any())
+				{
 
-                    @foreach (var supplementItem in ExtraSupplementLines)
-                    {
-                        <MudGrid Class="my-1">
-                            <MudItem Class="d-flex align-center justify-start">
-                                <MudImage Src="@(supplementItem.Supplement.ImageUrls?.ElementAt(0).ToString())" Width="50" Height="50" Style="margin:-15px 0px;object-fit:cover" Class="rounded" />
-                            </MudItem>
+					@foreach (var supplementItem in ExtraSupplementLines)
+					{
+						<MudGrid Class="my-1">
+							<MudItem Class="d-flex align-center justify-start">
+								<MudImage Src="@(supplementItem.Supplement.ImageUrls?.ElementAt(0).ToString())" Width="50" Height="50" Style="margin:-15px 0px;object-fit:cover" Class="rounded" />
+							</MudItem>
 
-                            <MudItem xs="5" Class="d-flex align-center justify-start">
-                                <MudText>@(supplementItem.Supplement.Name)</MudText>
-                                </MudItem>
+							<MudItem xs="5" Class="d-flex align-center justify-start">
+								<MudText>@(supplementItem.Supplement.Name)</MudText>
+							</MudItem>
 
-                                <MudItem xs="3" Class="d-flex align-center justify-start">
+							<MudItem xs="3" Class="d-flex align-center justify-start">
 
-                                    x @supplementItem.Quantity
-                                </MudItem>
+								x @supplementItem.Quantity
+							</MudItem>
 
-                            </MudGrid>
-                        <MudDivider />
-                    }
+						</MudGrid>
+						<MudDivider />
+					}
 
-                }
-                else
-                {
-                    <span>Geen extra's gekozen.</span>
-                }
-            </MudPaper>
-        </div>
-    </MudPaper>
+				}
+				else
+				{
+					<span>Geen extra's gekozen.</span>
+				}
+			</MudPaper>
+		</div>
+	</MudPaper>
 
 
 
-    @*     <MudText Typo="Typo.h6">Gegevens</MudText> *@
-    <MudPaper Style="display:grid" Elevation="1">
-        @SectionHeader("Gegevens", 3)
-        <div class="pa-7">
-            <MudGrid>
-                <MudItem xs="6">
-                    Gegevens:
-                    <MudPaper Style="" Elevation="0" Class="pa-5 ">
-                        <MudGrid>
-                            <MudItem Style="">
-                                <MudText><b>Voornaam:</b> </MudText>
-                                <MudText><b>Achternaam:</b> </MudText>
-                                <MudText><b>Email:</b> </MudText>
-                                <MudText><b>Telefoonnr.:</b></MudText>
-                            </MudItem>
-                            <MudItem>
-                                <MudText>@Customer.Firstname</MudText>
-                                <MudText> @Customer.Lastname</MudText>
-                                <MudText>@Customer.Email</MudText>
-                                <MudText>@Customer.Phone</MudText>
-                            </MudItem>
-                        </MudGrid>
+	@*     <MudText Typo="Typo.h6">Gegevens</MudText> *@
+	<MudPaper Style="display:grid" Elevation="1">
+		@SectionHeader("Gegevens", 3)
+		<div class="pa-7">
+			<MudGrid>
+				<MudItem xs="6">
+					Gegevens:
+					<MudPaper Style="" Elevation="0" Class="pa-5 ">
+						<MudGrid>
+							<MudItem Style="">
+								<MudText><b>Voornaam:</b> </MudText>
+								<MudText><b>Achternaam:</b> </MudText>
+								<MudText><b>Email:</b> </MudText>
+								<MudText><b>Telefoonnr.:</b></MudText>
+							</MudItem>
+							<MudItem>
+								<MudText>@Customer.Firstname</MudText>
+									<MudText> @Customer.Lastname</MudText>
+									<MudText>@Customer.Email</MudText>
+									<MudText>@Customer.Phone</MudText>
+								</MudItem>
+							</MudGrid>
 
-                    </MudPaper>
+						</MudPaper>
 
-                    <MudPaper Style="display:grid" Elevation="0" Class="pa-5">
-                        <MudGrid>
-                            <MudItem Style="">
-                                <MudText><b>Bedrijfsnaam:</b> </MudText>
-                                <MudText><b>Ondernemingsnummer:</b> </MudText>
-                            </MudItem>
-                            <MudItem>
-                                <MudText>@Customer.CompanyName</MudText>
-                                <MudText>@Customer.CompanyNumber</MudText>
-                            </MudItem>
-                        </MudGrid>
+						<MudPaper Style="display:grid" Elevation="0" Class="pa-5">
+							<MudGrid>
+								<MudItem Style="">
+									<MudText><b>Bedrijfsnaam:</b> </MudText>
+									<MudText><b>Ondernemingsnummer:</b> </MudText>
+								</MudItem>
+								<MudItem>
+									<MudText>@Customer.CompanyName</MudText>
+									<MudText>@Customer.CompanyNumber</MudText>
+								</MudItem>
+							</MudGrid>
 
-                    </MudPaper>
-                </MudItem>
+						</MudPaper>
+					</MudItem>
 
-                <MudItem xs="6">
-                    Adres:
-                    <MudPaper Style="display:grid" Elevation="0" Class="pa-5">
+					<MudItem xs="6">
+						Adres:
+						<MudPaper Style="display:grid" Elevation="0" Class="pa-5">
 
-                        <MudText><b>Evenementadres</b></MudText>
-                        <MudText>
-                            @($"{EventAddress.Street} {EventAddress.HouseNumber}")
-                            <br />
-                            @($"{EventAddress.Zip} {EventAddress.City}")
-                        </MudText>
+							<MudText><b>Evenementadres</b></MudText>
+							<MudText>
+								@($"{EventAddress.Street} {EventAddress.HouseNumber}")
+								<br />
+								@($"{EventAddress.Zip} {EventAddress.City}")
+							</MudText>
 
-                    </MudPaper>
+						</MudPaper>
 
-                    <MudPaper Style="display:grid" Elevation="0" Class="pa-5">
+						<MudPaper Style="display:grid" Elevation="0" Class="pa-5">
 
-                        <MudText><b>Factuuradres</b></MudText>
-                        <MudText>
-                            @($"{BillingAddress.Street} {BillingAddress.HouseNumber}")
-                            <br />
-                            @($"{BillingAddress.Zip} {BillingAddress.City}")
-                        </MudText>
+							<MudText><b>Factuuradres</b></MudText>
+							<MudText>
+								@($"{BillingAddress.Street} {BillingAddress.HouseNumber}")
+								<br />
+								@($"{BillingAddress.Zip} {BillingAddress.City}")
+							</MudText>
 
-                    </MudPaper>
-                </MudItem>
-            </MudGrid>
+						</MudPaper>
+					</MudItem>
+				</MudGrid>
 
-            <MudDivider />
-            <br />
-            Extra info:
-            <MudPaper Class="pa-5" Elevation="0">
-                <MudText>@ExtraInfo</MudText>
-            </MudPaper>
-        </div>
-    </MudPaper>
+				<MudDivider />
+				<br />
+				Extra info:
+				<MudPaper Class="pa-5" Elevation="0">
+					<MudText>@ExtraInfo</MudText>
+				</MudPaper>
+			</div>
+		</MudPaper>
 
-    <MudStack Row AlignItems="AlignItems.Center" Class="ml-auto">
-         Ik heb de algemene voorwaarden gelezen en ik ga hiermee akkoord.* <MudCheckBox Checked="false"></MudCheckBox>
-     </MudStack>
+		<MudStack Row AlignItems="AlignItems.Center" Class="ml-auto">
+			Ik heb de algemene voorwaarden gelezen en ik ga hiermee akkoord.* <MudCheckBox Checked="false"></MudCheckBox>
+		</MudStack>
 
-     <MudStack Row>
-        <MudButton Variant="Variant.Filled" DisableElevation="true" OnClick="QuotationProcessStepControl!.PreviousStep">Vorige stap</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit" Class="ml-auto">Plaats offerte</MudButton>
-    </MudStack>
+		<MudStack Row>
+		@if (!QuotationProcessState.ReachedEnd)
+		{
+			<MudButton Variant="Variant.Filled" DisableElevation="true" OnClick="QuotationProcessStepControl!.PreviousStep">Vorige stap</MudButton>
+		}
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit" Class="ml-auto">Plaats offerte</MudButton>
+	</MudStack>
 
 </MudStack>
 
 
 @code {
-    private RenderFragment SectionHeader(string title, int stepIndex) =>
-    @<MudStack Row AlignItems="AlignItems.Center" Class="r-0 absolute" Style="justify-self: right">
+	private RenderFragment SectionHeader(string title, int stepIndex) =>
+	@<MudStack Row AlignItems="AlignItems.Center" Class="r-0 absolute" Style="justify-self: right">
 
-         <MudChip Class="ml-auto" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => QuotationProcessStepControl?.GoToStep(stepIndex))" Style="margin:0px;border-radius: 0px 4px 0px 4px">
-             <MudIcon Icon="@Icons.Material.Filled.Edit" Color="Color.Surface" Size="Size.Small" />
-         </MudChip>
-             </MudStack>
-    ;
+		<MudChip Class="ml-auto" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => QuotationProcessStepControl?.GoToStep(stepIndex, true))" Style="margin:0px;border-radius: 0px 4px 0px 4px">
+			<MudIcon Icon="@Icons.Material.Filled.Edit" Color="Color.Surface" Size="Size.Small" />
+		</MudChip>
+	</MudStack>
+	;
 
-    [Inject] public QuotationProcessState QuotationProcessState { get; set; } = default!;
-    [CascadingParameter] private QuotationProcessStepControl? QuotationProcessStepControl { get; set; }
+	[Inject] public QuotationProcessState QuotationProcessState { get; set; } = default!;
+	[CascadingParameter] private QuotationProcessStepControl? QuotationProcessStepControl { get; set; }
 
-    ReservationDto.Create Reservation => QuotationProcessState.QuotationVersion.Reservation;
+	ReservationDto.Create Reservation => QuotationProcessState.QuotationVersion.Reservation;
 
-    FormulaDto.Detail Formula => QuotationProcessState.CurrentSelectedFormula!;
-    IReadOnlyCollection<FormulaChoiceFormItem> FormulaChoiceFormItems => QuotationProcessState.ChosenFormulaChoiceItems;
-    IReadOnlyCollection<ExtraSupplementLine> ExtraSupplementLines => QuotationProcessState.ExtraSupplementLines;
+	FormulaDto.Detail Formula => QuotationProcessState.CurrentSelectedFormula!;
+	IReadOnlyCollection<FormulaChoiceFormItem> FormulaChoiceFormItems => QuotationProcessState.ChosenFormulaChoiceItems;
+	IReadOnlyCollection<ExtraSupplementLine> ExtraSupplementLines => QuotationProcessState.ExtraSupplementLines;
 
-    AddressDto BillingAddress => QuotationProcessState.QuotationVersion.BillingAddress;
-    AddressDto EventAddress => QuotationProcessState.QuotationVersion.EventAddress;
-    CustomerDto.Create Customer => QuotationProcessState.Customer;
-    string ExtraInfo => QuotationProcessState.QuotationVersion.ExtraInfo ?? "";
+	AddressDto BillingAddress => QuotationProcessState.QuotationVersion.BillingAddress;
+	AddressDto EventAddress => QuotationProcessState.QuotationVersion.EventAddress;
+	CustomerDto.Create Customer => QuotationProcessState.Customer;
+	string ExtraInfo => QuotationProcessState.QuotationVersion.ExtraInfo ?? "";
 
-    private async Task Submit()
-    {
-        await QuotationService.CreateAsync(QuotationProcessState.quotation);
-    }
+	private async Task Submit()
+	{
+		await QuotationService.CreateAsync(QuotationProcessState.quotation);
+	}
 
 }

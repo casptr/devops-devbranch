@@ -8,46 +8,52 @@
 <PageTitle>Offerte aanvragen</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
-    <MudForm Model="@model" @ref="@form" Validation="@(validator.ValidateValue)" ValidationDelay="0">
-        <MudGrid Class="mb-2">
-            <MudItem xs="12" lg="6">
-                <MudText Typo="Typo.h6" Class="mb-4">Klantgegevens</MudText>
-                <MudTextField Label="Voornaam" @bind-Value="model.Customer.Firstname" For="@(() => model.Customer.Firstname)" Placeholder="Voornaam" />
-                <MudTextField Label="Naam" @bind-Value="model.Customer.Lastname" For="@(() => model.Customer.Lastname)" Placeholder="Naam" />
-                <MudTextField Label="Emailadres" @bind-Value="model.Customer.Email" For="@(() => model.Customer.Email)" Placeholder="email@example.com" />
-                <MudTextField Label="Telefoonnummer" @bind-Value="model.Customer.Phone" For="@(() => model.Customer.Phone)" Placeholder="123-456-7890" />
-                <MudTextField Label="Bedrijfsnaam" @bind-Value="model.Customer.CompanyName" For="@(() => model.Customer.CompanyName)" Placeholder="Bedrijfsnaam" />
-                <MudTextField Label="Ondernemingsnummer" @bind-Value="model.Customer.CompanyNumber" For="@(() => model.Customer.CompanyNumber)" Placeholder="123456789" />
-            </MudItem>
-            <MudItem xs="12" lg="6">
-                <MudText Typo="Typo.h6" Class="mb-4">Evenementadres</MudText>
-                <MudTextField Label="Straatnaam" @bind-Value="model.EventAddress.Street" For="@(() => model.EventAddress.Street)" Placeholder="Straat" />
-                <MudTextField Label="Huisnummer" @bind-Value="model.EventAddress.HouseNumber" For="@(() => model.EventAddress.HouseNumber)" Placeholder="123" />
-                <MudTextField Label="Postcode" @bind-Value="model.EventAddress.Zip" For="@(() => model.EventAddress.Zip)" Placeholder="12345" />
-                <MudTextField Label="Stad" @bind-Value="model.EventAddress.City" For="@(() => model.EventAddress.City)" Placeholder="Stad" />
-                <MudCheckBox Label="Mijn evenementadres is verschillend van het factuuradres" @bind-Checked="model.IsEventAddressDifferentThanBillingAddress" Style="margin-left: -15px;"></MudCheckBox>
+	<MudForm Model="@model" @ref="@form" Validation="@(validator.ValidateValue)" ValidationDelay="0">
+		<MudGrid Class="mb-2">
+			<MudItem xs="12" lg="6">
+				<MudText Typo="Typo.h6" Class="mb-4">Klantgegevens</MudText>
+				<MudTextField Label="Voornaam" @bind-Value="model.Customer.Firstname" For="@(() => model.Customer.Firstname)" Placeholder="Voornaam" />
+				<MudTextField Label="Naam" @bind-Value="model.Customer.Lastname" For="@(() => model.Customer.Lastname)" Placeholder="Naam" />
+				<MudTextField Label="Emailadres" @bind-Value="model.Customer.Email" For="@(() => model.Customer.Email)" Placeholder="email@example.com" />
+				<MudTextField Label="Telefoonnummer" @bind-Value="model.Customer.Phone" For="@(() => model.Customer.Phone)" Placeholder="123-456-7890" />
+				<MudTextField Label="Bedrijfsnaam" @bind-Value="model.Customer.CompanyName" For="@(() => model.Customer.CompanyName)" Placeholder="Bedrijfsnaam" />
+				<MudTextField Label="Ondernemingsnummer" @bind-Value="model.Customer.CompanyNumber" For="@(() => model.Customer.CompanyNumber)" Placeholder="123456789" />
+			</MudItem>
+			<MudItem xs="12" lg="6">
+				<MudText Typo="Typo.h6" Class="mb-4">Evenementadres</MudText>
+				<MudTextField Label="Straatnaam" @bind-Value="model.EventAddress.Street" For="@(() => model.EventAddress.Street)" Placeholder="Straat" />
+				<MudTextField Label="Huisnummer" @bind-Value="model.EventAddress.HouseNumber" For="@(() => model.EventAddress.HouseNumber)" Placeholder="123" />
+				<MudTextField Label="Postcode" @bind-Value="model.EventAddress.Zip" For="@(() => model.EventAddress.Zip)" Placeholder="12345" />
+				<MudTextField Label="Stad" @bind-Value="model.EventAddress.City" For="@(() => model.EventAddress.City)" Placeholder="Stad" />
+				<MudCheckBox Label="Mijn evenementadres is verschillend van het factuuradres" @bind-Checked="model.IsEventAddressDifferentThanBillingAddress" Style="margin-left: -15px;"></MudCheckBox>
 
-                @if (model.IsEventAddressDifferentThanBillingAddress)
-                {
-                    <MudText Typo="Typo.h6" Class="mb-4">Factuuradres</MudText>
-                    <MudTextField Label="Straatnaam" @bind-Value="model.BillingAddress.Street" For="@(() => model.BillingAddress.Street)" Placeholder="Straat" />
-                    <MudTextField Label="Huisnummer" @bind-Value="model.BillingAddress.HouseNumber" For="@(() => model.BillingAddress.HouseNumber)" Placeholder="123" />
-                    <MudTextField Label="Postcode" @bind-Value="model.BillingAddress.Zip" For="@(() => model.BillingAddress.Zip)" Placeholder="12345" />
-                    <MudTextField Label="Stad" @bind-Value="model.BillingAddress.City" For="@(() => model.BillingAddress.City)" Placeholder="Stad" />
-                }
-            </MudItem>
-        </MudGrid>
+				@if (model.IsEventAddressDifferentThanBillingAddress)
+				{
+					<MudText Typo="Typo.h6" Class="mb-4">Factuuradres</MudText>
+					<MudTextField Label="Straatnaam" @bind-Value="model.BillingAddress.Street" For="@(() => model.BillingAddress.Street)" Placeholder="Straat" />
+					<MudTextField Label="Huisnummer" @bind-Value="model.BillingAddress.HouseNumber" For="@(() => model.BillingAddress.HouseNumber)" Placeholder="123" />
+					<MudTextField Label="Postcode" @bind-Value="model.BillingAddress.Zip" For="@(() => model.BillingAddress.Zip)" Placeholder="12345" />
+					<MudTextField Label="Stad" @bind-Value="model.BillingAddress.City" For="@(() => model.BillingAddress.City)" Placeholder="Stad" />
+				}
+			</MudItem>
+		</MudGrid>
 
-        <MudTextField @bind-Value="model.ExtraInfo" For="@(() => model.ExtraInfo)" Label="Extra informatie over je evenement" Variant="Variant.Outlined" Lines="5" Placeholder="Extra informatie" />
-        <MudCheckBox @bind-Checked="model.Customer.WantsMarketingMails" For="@(() => model.Customer.WantsMarketingMails)" Label="Ja, ik wil graag marketinginformatie en updates ontvangen." Style="margin-left: -15px;"></MudCheckBox>
-        @if (!form.IsValid)
-        {
-            <MudText Color="Color.Error" Class="mb-3">Gelieve alle gegevens correct in te vullen om door te gaan</MudText>
-        }
-
-        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
-    </MudForm>
+		<MudTextField @bind-Value="model.ExtraInfo" For="@(() => model.ExtraInfo)" Label="Extra informatie over je evenement" Variant="Variant.Outlined" Lines="5" Placeholder="Extra informatie" />
+		<MudCheckBox @bind-Checked="model.Customer.WantsMarketingMails" For="@(() => model.Customer.WantsMarketingMails)" Label="Ja, ik wil graag marketinginformatie en updates ontvangen." Style="margin-left: -15px;"></MudCheckBox>
+		@if (!form.IsValid)
+		{
+			<MudText Color="Color.Error" Class="mb-3">Gelieve alle gegevens correct in te vullen om door te gaan</MudText>
+		}
+		@if (QuotationProcessState.ReachedEnd)
+		{
+			<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="GoToOverview">Keer terug naar overzicht</MudButton>
+		}
+		else
+		{
+			<MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
+			<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
+		}
+	</MudForm>
 </MudContainer>
 
 

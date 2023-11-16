@@ -8,6 +8,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 {
     public class QuotationProcessState
     {
+        public bool ReachedEnd { get; set; } = false;
         public int? CurrentStepIndex { get; set; }
 
         public QuotationDto.Create quotation = new();

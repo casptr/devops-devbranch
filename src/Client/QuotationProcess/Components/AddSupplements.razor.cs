@@ -64,8 +64,13 @@ public partial class AddSupplements
         QuotationProcessStepControl.NextStep();
     }
 
+    private void GoToOverview()
+    {
+		QuotationProcessState.ConfigureQuotationExtraSupplements();
+        QuotationProcessStepControl.GoToStep(4, true);
+	}
 
-    protected override void OnInitialized()
+	protected override void OnInitialized()
     {
         if (QuotationProcessStepControl == null)
             throw new ArgumentNullException(nameof(QuotationProcessStepControl), "AddSupplements must be used inside a QuotationProcessStep");
