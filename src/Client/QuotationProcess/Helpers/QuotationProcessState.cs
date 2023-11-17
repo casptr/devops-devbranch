@@ -34,10 +34,10 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         // CustomerDetails
         public CustomerDetailsFormModel CustomerDetailsFormModel { get; set; } = new();
 
-        public void ConfigureQuotationReservation(DateTime? start, DateTime? end)
+        public void ConfigureQuotationReservation()
         {
-            QuotationVersion.Reservation.Start = start;
-            QuotationVersion.Reservation.End = end;
+            QuotationVersion.Reservation.Start = ReservationModel.Start?.Date.AddHours(11);
+            QuotationVersion.Reservation.End = ReservationModel.End?.Date.AddHours(16);
         }
 
         public void ConfigureQuotationFormula(FormulaDto.Detail formula)

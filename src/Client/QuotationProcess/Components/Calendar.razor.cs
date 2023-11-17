@@ -68,9 +68,7 @@ namespace Foodtruck.Client.QuotationProcess.Components
                 return;
             }
 
-            Model.Start = Model.Start?.Date.AddHours(11);
-            Model.End = Model.End?.Date.AddHours(16);
-            QuotationProcessState.ConfigureQuotationReservation(Model.Start, Model.End);
+            QuotationProcessState.ConfigureQuotationReservation();
             QuotationProcessStepControl.NextStep();
         }
 
@@ -83,10 +81,7 @@ namespace Foodtruck.Client.QuotationProcess.Components
                 return;
             }
 
-            Model.Start = Model.Start?.Date.AddHours(11);
-            Model.End = Model.End?.Date.AddHours(16);
-            QuotationProcessState.ConfigureQuotationReservation(Model.Start, Model.End);
-            QuotationProcessState.ConfigureQuotationExtraSupplements();
+            QuotationProcessState.ConfigureQuotationReservation();
             QuotationProcessStepControl.GoToStep(4, true);
         }
 
