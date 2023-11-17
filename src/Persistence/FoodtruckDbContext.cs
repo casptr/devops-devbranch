@@ -22,7 +22,6 @@ namespace Foodtruck.Persistence
         public DbSet<Quotation> Quotations => Set<Quotation>();
         public DbSet<QuotationSupplementLine> QuotationSupplementLines => Set<QuotationSupplementLine>();
         public DbSet<Reservation> Reservations => Set<Reservation>();
-        public DbSet<QuotationVersion> QuotationVersions => Set<QuotationVersion>();
         public DbSet<SupplementImage> SupplementImages => Set<SupplementImage>();
 
         public FoodtruckDbContext(DbContextOptions<FoodtruckDbContext> options) : base(options) { }

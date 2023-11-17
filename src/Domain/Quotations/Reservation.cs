@@ -18,7 +18,7 @@ namespace Domain.Quotations
 		private Status status = default!;
 		public Status Status { get => status; set => status = Guard.Against.Null(value, nameof(Status)); }
 
-        public QuotationVersion? QuotationVersion { get; set; }
+        public Quotation? Quotation { get; set; }
 
         /// <summary>
         /// Database Constructor

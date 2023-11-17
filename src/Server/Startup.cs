@@ -52,7 +52,6 @@ namespace Server
                     options.EnableSensitiveDataLogging();
                     options.UseTriggers(options =>
                     {
-                        options.AddTrigger<QuotationVersionBeforeSaveTrigger>();
                         options.AddTrigger<EntityBeforeSaveTrigger>();
                     });
                 }

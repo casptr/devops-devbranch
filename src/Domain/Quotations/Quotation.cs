@@ -3,36 +3,15 @@ using Domain.Common;
 using Domain.Customers;
 using Domain.Formulas;
 using Domain.Supplements;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain.Quotations;
 
 public class Quotation : Entity
 {
     public Customer Customer { get; } = default!;
-    private readonly List<QuotationVersion> versions = new();
-    public IReadOnlyCollection<QuotationVersion> Versions => versions.AsReadOnly();
-
-    public void AddVersion(QuotationVersion version)
-    {
-        Guard.Against.Null(version, nameof(version));
-        if (versions.Contains(version))
-            throw new ApplicationException($"{nameof(Quotation)} '{Id}' already contains the version:{version.VersionNumber}");
-
-        versions.Add(version);
-    }
-
-    private Quotation() { }
-
-    public Quotation(Customer customer)
-    {
-        Customer = customer;
-    }
-}
-
-public class QuotationVersion : Entity
-{
-    private int versionNumber;
-    public int VersionNumber { get => versionNumber; set => versionNumber = Guard.Against.NegativeOrZero(value, nameof(VersionNumber)); }
 
     private int numberOfGuests;
     public int NumberOfGuests { get => numberOfGuests; set => numberOfGuests = Guard.Against.NegativeOrZero(value, nameof(NumberOfGuests)); }
@@ -70,13 +49,19 @@ public class QuotationVersion : Entity
     private Money vatTotal;
     public Money VatTotal { get => vatTotal; set => vatTotal = Guard.Against.Null(value, nameof(VatTotal)); }
 
-    /// <summary>
-    /// Database Constructor
-    /// </summary>
-    private QuotationVersion() { }
 
-    public QuotationVersion(int numberOfGuests, string extraInfo, string description, Reservation reservation, Formula formula, IEnumerable<SupplementItem> formulaSupplementItems, IEnumerable<SupplementItem> extraSupplementItems, Address eventAddress, Address billingAddress)
+    public Quotation? MostRecentVersion { get; set; }
+
+    private readonly List<Quotation> previousVersions = new();
+    public IReadOnlyCollection<Quotation> PreviousVersions => previousVersions.AsReadOnly();
+
+
+    private Quotation() { }
+
+
+    public Quotation(Customer customer, int numberOfGuests, string? extraInfo, string? description, Reservation reservation, Formula formula, IEnumerable<SupplementItem> formulaSupplementItems, IEnumerable<SupplementItem> extraSupplementItems, Address eventAddress, Address billingAddress)
     {
+        Customer = customer;
         NumberOfGuests = numberOfGuests;
         ExtraInfo = extraInfo;
         Description = description;
@@ -84,9 +69,13 @@ public class QuotationVersion : Entity
         Formula = formula;
         EventAddress = eventAddress;
         BillingAddress = billingAddress;
-        VersionNumber = 1;
 
         SetQuotationSupplementLines(formulaSupplementItems, extraSupplementItems);
+    }
+
+    public void AddPreviousVersions(Quotation quotation) {
+        previousVersions.AddRange(quotation.previousVersions);
+        previousVersions.Add(quotation);
     }
 
     public void SetQuotationSupplementLines(IEnumerable<SupplementItem> formulaSupplementItems, IEnumerable<SupplementItem> extraSupplementItems)
@@ -102,8 +91,4 @@ public class QuotationVersion : Entity
         Price = new Money(QuotationSupplementLines.Aggregate(0M, (total, next) => total + next.SupplementPrice.Value * new decimal(next.Quantity)) + FoodtruckPrice.Value);
         VatTotal = new Money(QuotationSupplementLines.Aggregate(0M, (total, next) => total + next.SupplementVat.Value * new decimal(next.Quantity)) + FoodtruckPrice.Value * new decimal(Domain.Formulas.Foodtruck.VAT_PERCENTAGE) / 100M);
     }
-
-
-
-
 }

@@ -13,7 +13,7 @@ internal class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
 {
     public void Configure(EntityTypeBuilder<Reservation> builder)
     {
-        builder.HasOne(x => x.QuotationVersion).WithOne(x => x.Reservation).HasForeignKey<QuotationVersion>("ReservationId");
+        builder.HasOne(x => x.Quotation).WithOne(x => x.Reservation).HasForeignKey<Quotation>("ReservationId");
     }
 
 }

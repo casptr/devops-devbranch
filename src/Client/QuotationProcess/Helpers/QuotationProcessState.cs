@@ -1,4 +1,5 @@
-﻿using Foodtruck.Shared.Customers;
+﻿using Domain.Quotations;
+using Foodtruck.Shared.Customers;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
@@ -10,9 +11,8 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
     {
         public int? CurrentStepIndex { get; set; }
 
-        public QuotationDto.Create quotation = new();
-        public CustomerDto.Create Customer => quotation.Customer;
-        public QuotationVersionDto.Create QuotationVersion => quotation.QuotationVersion;
+        public QuotationDto.Create Quotation { get; } = new();
+        public CustomerDto.Create Customer => Quotation.Customer;
 
         // Reservation
         public ReservationDto.Create ReservationModel { get; set; } = new();
@@ -35,20 +35,20 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
         public void ConfigureQuotationReservation(DateTime? start, DateTime? end)
         {
-            QuotationVersion.Reservation.Start = start;
-            QuotationVersion.Reservation.End = end;
+            Quotation.Reservation.Start = start;
+            Quotation.Reservation.End = end;
         }
 
         public void ConfigureQuotationFormula(FormulaDto.Detail formula)
         {
             completedChoiceFormModels.Clear();
             completedChoiceFormModels.AddRange(choiceFormModels.ToList());
-            QuotationVersion.FormulaSupplementItems.Clear();
+            Quotation.FormulaSupplementItems.Clear();
 
             CurrentSelectedFormula = formula;
-            QuotationVersion.FormulaId = CurrentSelectedFormula.Id;
+            Quotation.FormulaId = CurrentSelectedFormula.Id;
 
-            QuotationVersion.FormulaSupplementItems.AddRange(completedChoiceFormModels
+            Quotation.FormulaSupplementItems.AddRange(completedChoiceFormModels
                 .SelectMany(choiceForm => choiceForm.Options)
                 .Where(option => option.Quantity != 0)
                 .Select(option => new SupplementItemDto.Create()
@@ -59,7 +59,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
             // Add included supplements from formula
             if (CurrentSelectedFormula.IncludedSupplements != null)
-                QuotationVersion.FormulaSupplementItems.AddRange(CurrentSelectedFormula.IncludedSupplements
+                Quotation.FormulaSupplementItems.AddRange(CurrentSelectedFormula.IncludedSupplements
                     .Select(includedSupplementLine => new SupplementItemDto.Create()
                     {
                         SupplementId = includedSupplementLine.Supplement!.Id,
@@ -69,8 +69,8 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
         public void ConfigureQuotationExtraSupplements()
         {
-            QuotationVersion.ExtraSupplementItems.Clear();
-            QuotationVersion.ExtraSupplementItems.AddRange(extraSupplementLines.Select(extraSupplementLine => new SupplementItemDto.Create()
+            Quotation.ExtraSupplementItems.Clear();
+            Quotation.ExtraSupplementItems.AddRange(extraSupplementLines.Select(extraSupplementLine => new SupplementItemDto.Create()
             {
                 Quantity = extraSupplementLine.Quantity,
                 SupplementId = extraSupplementLine.Supplement.Id,
@@ -79,17 +79,17 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
         public void ConfigureQuotationCustomerDetails()
         {
-            quotation.QuotationVersion.NumberOfGuests = 50; // TODO this should be a form field !!!!!!!!!
+            Quotation.NumberOfGuests = 50; // TODO this should be a form field !!!!!!!!!
 
-            quotation.Customer = CustomerDetailsFormModel.Customer;
-            QuotationVersion.EventAddress = CustomerDetailsFormModel.EventAddress;
-            QuotationVersion.ExtraInfo = CustomerDetailsFormModel.ExtraInfo;
+            Quotation.Customer = CustomerDetailsFormModel.Customer;
+            Quotation.EventAddress = CustomerDetailsFormModel.EventAddress;
+            Quotation.ExtraInfo = CustomerDetailsFormModel.ExtraInfo;
 
             // we have to set the billing address if event address is the same as the billing address
             if (CustomerDetailsFormModel.IsEventAddressDifferentThanBillingAddress)
-                QuotationVersion.BillingAddress = CustomerDetailsFormModel.BillingAddress;
+                Quotation.BillingAddress = CustomerDetailsFormModel.BillingAddress;
             else
-                QuotationVersion.BillingAddress = CustomerDetailsFormModel.EventAddress;
+                Quotation.BillingAddress = CustomerDetailsFormModel.EventAddress;
         }
 
         public void SetupFormulaChoiceFormModels(FormulaDto.Detail formula)
@@ -145,11 +145,11 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
         public void PrintQuotation()
         {
-            AddressDto EventAddress = QuotationVersion.EventAddress;
-            AddressDto BillingAddress = QuotationVersion.BillingAddress;
+            AddressDto EventAddress = Quotation.EventAddress;
+            AddressDto BillingAddress = Quotation.BillingAddress;
 
             Console.WriteLine("------------QUOTATION----------------");
-            Console.WriteLine($"Reservation from {QuotationVersion.Reservation.Start} to {QuotationVersion.Reservation.End}");
+            Console.WriteLine($"Reservation from {Quotation.Reservation.Start} to {Quotation.Reservation.End}");
             Console.WriteLine();
 
             Console.WriteLine("Customer Details:");
@@ -182,7 +182,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
             Console.WriteLine();
             Console.WriteLine("Supplements included and chosen:");
-            foreach (var supplementItem in QuotationVersion.FormulaSupplementItems)
+            foreach (var supplementItem in Quotation.FormulaSupplementItems)
             {
                 var supplement = allSupplements.Find(s => s.Id == supplementItem.SupplementId);
                 Console.WriteLine($"Formula Supplement: {supplement.Name}, Quantity: {supplementItem.Quantity}");

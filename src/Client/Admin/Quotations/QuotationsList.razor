@@ -31,32 +31,32 @@
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
-                <TemplateColumn SortBy="x => x.LastQuotationVersion.Reservation.Start">
+                <TemplateColumn SortBy="x => x.Reservation.Start">
                     <HeaderTemplate>
                         <MudText Typo="Typo.subtitle2">Datum</MudText>
                     </HeaderTemplate>
                     <CellTemplate>
-                        @if (context.Item.LastQuotationVersion?.Reservation?.Start.Date == context.Item.LastQuotationVersion?.Reservation?.End.Date)
+                        @if (context.Item.Reservation?.Start.Date == context.Item.Reservation?.End.Date)
                         {
-                            <MudText Typo="Typo.body2">@context.Item.LastQuotationVersion?.Reservation?.Start.ToString("dd/MM")</MudText>
+                            <MudText Typo="Typo.body2">@context.Item.Reservation?.Start.ToString("dd/MM")</MudText>
                         }
                         else
                         {
-                            <MudText Typo="Typo.body2">van @context.Item.LastQuotationVersion?.Reservation?.Start.ToString("dd/MM")</MudText>
-                            <MudText Typo="Typo.body2">tot @context.Item.LastQuotationVersion?.Reservation?.End.ToString("dd/MM")</MudText>
+                            <MudText Typo="Typo.body2">van @context.Item.Reservation?.Start.ToString("dd/MM")</MudText>
+                            <MudText Typo="Typo.body2">tot @context.Item.Reservation?.End.ToString("dd/MM")</MudText>
                         }
                     </CellTemplate>
                 </TemplateColumn>
-                <PropertyColumn Property="x => x.LastQuotationVersion!.Formula!.Title" Title="Formule"/>
-                <TemplateColumn SortBy="x => x.LastQuotationVersion.Price">
+                <PropertyColumn Property="x => x.Formula!.Title" Title="Formule"/>
+                <TemplateColumn SortBy="x => x.Price">
                     <HeaderTemplate>
                         <MudText Typo="Typo.subtitle2">Prijs</MudText>
                     </HeaderTemplate>
                     <CellTemplate>
-                        <MudText Typo="Typo.body2">€@context.Item.LastQuotationVersion?.Price.ToString("0.##")</MudText>
+                        <MudText Typo="Typo.body2">€@context.Item.Price.ToString("0.##")</MudText>
                     </CellTemplate>
                 </TemplateColumn>
-                <PropertyColumn Property="x => x.LastQuotationVersion!.Reservation!.Status.GetValueOrDefault()"/>
+                <PropertyColumn Property="x => x.Reservation!.Status.GetValueOrDefault()"/>
                 <TemplateColumn CellClass="d-flex justify-end" HeaderClass="d-flex justify-end">
                     <HeaderTemplate>
                         <MudText Typo="Typo.subtitle2">&nbsp;</MudText>
@@ -68,7 +68,7 @@
             </Columns>
             <ChildRowContent>
                 <MudItem>
-                    <MudText Style="padding-bottom: 1rem;" Typo="Typo.h6">Offerte #@context.Item.LastQuotationVersion.Id</MudText>
+                    <MudText Style="padding-bottom: 1rem;" Typo="Typo.h6">Offerte #@context.Item.Id</MudText>
                     <MudStack Row>
                         <MudCard>
                             <MudCardHeader Style="padding-bottom: 6px; padding-top: 6px;">
@@ -110,12 +110,12 @@
                                 <MudStack Spacing="0">
                                     <MudStack Spacing="1" Style="padding-bottom: 0.5rem;">
                                          <MudText Typo="Typo.body2"><strong>Adres:</strong></MudText>
-                                         <MudText Typo="Typo.body2">@(context.Item.LastQuotationVersion.EventAddress.Street + " " + context.Item.LastQuotationVersion.EventAddress.HouseNumber)</MudText>
-                                         <MudText Typo="Typo.body2">@(context.Item.LastQuotationVersion.EventAddress.Zip + " " + context.Item.LastQuotationVersion.EventAddress.City)</MudText>
+                                         <MudText Typo="Typo.body2">@(context.Item.EventAddress.Street + " " + context.Item.EventAddress.HouseNumber)</MudText>
+                                         <MudText Typo="Typo.body2">@(context.Item.EventAddress.Zip + " " + context.Item.EventAddress.City)</MudText>
                                     </MudStack>
                                     <MudStack Row Spacing="1">
                                         <MudText Typo="Typo.body2"><strong>Aantal personen:</strong></MudText>
-                                        <MudText Typo="Typo.body2">@context.Item.LastQuotationVersion.NumberOfGuests</MudText>
+                                        <MudText Typo="Typo.body2">@context.Item.NumberOfGuests</MudText>
                                     </MudStack>
                                 </MudStack>
                             </MudCardContent>
@@ -125,7 +125,7 @@
                                 <MudText Typo="Typo.h6">Extra info</MudText>
                             </MudCardHeader>
                             <MudCardContent Style="padding-top: 0px;">
-                                <MudText Typo="Typo.body2">@context.Item.LastQuotationVersion.ExtraInfo</MudText>
+                                <MudText Typo="Typo.body2">@context.Item.ExtraInfo</MudText>
                             </MudCardContent>
                         </MudCard>
                     </MudStack>

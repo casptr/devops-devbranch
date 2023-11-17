@@ -233,20 +233,20 @@
     [Inject] public QuotationProcessState QuotationProcessState { get; set; } = default!;
     [CascadingParameter] private QuotationProcessStepControl? QuotationProcessStepControl { get; set; }
 
-    ReservationDto.Create Reservation => QuotationProcessState.QuotationVersion.Reservation;
+    ReservationDto.Create Reservation => QuotationProcessState.Quotation.Reservation;
 
     FormulaDto.Detail Formula => QuotationProcessState.CurrentSelectedFormula!;
     IReadOnlyCollection<FormulaChoiceFormItem> FormulaChoiceFormItems => QuotationProcessState.ChosenFormulaChoiceItems;
     IReadOnlyCollection<ExtraSupplementLine> ExtraSupplementLines => QuotationProcessState.ExtraSupplementLines;
 
-    AddressDto BillingAddress => QuotationProcessState.QuotationVersion.BillingAddress;
-    AddressDto EventAddress => QuotationProcessState.QuotationVersion.EventAddress;
+    AddressDto BillingAddress => QuotationProcessState.Quotation.BillingAddress;
+    AddressDto EventAddress => QuotationProcessState.Quotation.EventAddress;
     CustomerDto.Create Customer => QuotationProcessState.Customer;
-    string ExtraInfo => QuotationProcessState.QuotationVersion.ExtraInfo ?? "";
+    string ExtraInfo => QuotationProcessState.Quotation.ExtraInfo ?? "";
 
     private async Task Submit()
     {
-        await QuotationService.CreateAsync(QuotationProcessState.quotation);
+        await QuotationService.CreateAsync(QuotationProcessState.Quotation);
     }
 
 }
