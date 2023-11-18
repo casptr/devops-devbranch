@@ -69,20 +69,10 @@ namespace Foodtruck.Client.QuotationProcess.Components
             }
 
             QuotationProcessState.ConfigureQuotationReservation();
-            QuotationProcessStepControl.NextStep();
-        }
-
-        private async void GoToOverview()
-        {
-            await form.Validate();
-
-            if (!form.IsValid)
-            {
-                return;
-            }
-
-            QuotationProcessState.ConfigureQuotationReservation();
-            QuotationProcessStepControl.GoToStep(4, true);
+            if (QuotationProcessState.ReachedEnd)
+                QuotationProcessStepControl.GoToOverview();
+            else
+                QuotationProcessStepControl.NextStep();
         }
 
         // MudDatePicker Functions

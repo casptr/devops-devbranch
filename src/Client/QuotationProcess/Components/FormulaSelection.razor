@@ -10,15 +10,11 @@
 	{
 		<MudText Color="Color.Error" Class="mb-3">Gelieve een formule te selecteren om door te gaan</MudText>
 	}
-	@if (QuotationProcessState.ReachedEnd)
-	{
-		<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="GoToOverview">Keer terug naar overzicht</MudButton>
-	}
-	else
+	@if (!QuotationProcessState.ReachedEnd)
 	{
 		<MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
-		<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
 	}
+	<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">@(QuotationProcessState.ReachedEnd ? "Keer terug naar overzicht" : "Doorgaan")</MudButton>
 </MudContainer>
 
 
@@ -36,21 +32,10 @@
 			ValidationFailed = true;
 			return;
 		}
-
-		QuotationProcessStepControl.NextStep();
-	}
-
-	private void GoToOverview()
-	{
-		ValidationFailed = false;
-
-		if (!HasSelectedFormula)
-		{
-			ValidationFailed = true;
-			return;
-		}
-
-		QuotationProcessStepControl.GoToStep(4, true);
+		if (QuotationProcessState.ReachedEnd)
+			QuotationProcessStepControl.GoToOverview();
+		else
+			QuotationProcessStepControl.NextStep();
 	}
 
 	protected override void OnInitialized()

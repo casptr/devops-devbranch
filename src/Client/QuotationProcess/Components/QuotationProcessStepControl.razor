@@ -26,17 +26,21 @@
 		Steps.Add(step);
 
 		if (ActiveStepIndex == Steps.Count - 1)
-			GoToStep(ActiveStepIndex, false);
+			GoToStep(ActiveStepIndex);
 	}
 
-	public void GoToStep(int stepIndex, bool hasReachedEnd)
+	public void GoToStep(int stepIndex)
 	{
 		// if (stepIndex > ActiveStepIndex)
-		// 	return;
+		// return;
 
-		QuotationProcessState.ReachedEnd = hasReachedEnd;
 		QuotationProcessState.CurrentStepIndex = stepIndex;
 		ActivateStep();
+	}
+
+	public void GoToOverview()
+	{
+		GoToStep(4);
 	}
 
 	public void NextStep()
@@ -46,6 +50,9 @@
 
 		if (ActiveStepIndex == 0)
 			JsRuntime.InvokeVoidAsync("setExitEvent");
+
+		if (ActiveStepIndex == 3)
+			QuotationProcessState.ReachedEnd = true;
 
 		if (ActiveStepIndex == 4)
 			JsRuntime.InvokeVoidAsync("deleteExitEvent");

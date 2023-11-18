@@ -44,17 +44,10 @@
 		{
 			<MudText Color="Color.Error" Class="mb-3">Gelieve alle gegevens correct in te vullen om door te gaan</MudText>
 		}
-		@if (QuotationProcessState.ReachedEnd)
-		{
-			<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="GoToOverview">Keer terug naar overzicht</MudButton>
-		}
-		else
+		@if (!QuotationProcessState.ReachedEnd)
 		{
 			<MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
-			<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
 		}
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">@(QuotationProcessState.ReachedEnd ? "Keer terug naar overzicht" : "doorgaan")</MudButton>
 	</MudForm>
 </MudContainer>
-
-
-
