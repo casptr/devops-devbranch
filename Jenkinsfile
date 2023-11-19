@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                build job: 'StartContainer'
+                    echo 'Deploy stage reached'
             }
         }
     }
