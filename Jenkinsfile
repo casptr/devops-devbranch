@@ -2,22 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone the repo') {
+        stage('Clone the repository') {
             steps {
-                echo 'Clone the repository'
+                echo 'Cloning repository'
                 sh 'rm -fr devops-devbranch'
                 sh 'git clone https://github.com/casptr/devops-devbranch.git'
-                sh 'ls'
             }
         }
         stage('Preparation') {
             steps {
+                echo 'Checking database container'
                 build job: 'CheckIfDbRunning'
+                echo 'Creating application container image'
+                build job: 'BuildApp'
             }
         }
-        stage('Deploy') {
+        stage('Deployment') {
             steps {
-                    echo 'Deploy stage reached'
+                echo 'Deploying application container'
+                build job: 'StartContainer'
             }
         }
     }
