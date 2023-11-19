@@ -8,10 +8,10 @@ namespace Services.Pdfs;
 public class PdfService : IPdfService
 {
     
-    public Task<string> GetQuotationPdfAsBase64(QuotationDto.Detail quotation, QuotationVersionDto.Detail quotationVersion)
+    public Task<string> GetQuotationPdfAsBase64(QuotationDto.Detail quotation)
     {
         QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
-        QuotationModel model = new QuotationModel(quotation, quotationVersion);
+        QuotationModel model = new QuotationModel(quotation);
         var document = new QuotationDocument(model);
         string Base64String;
         using (var memstream = new MemoryStream())

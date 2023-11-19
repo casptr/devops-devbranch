@@ -32,4 +32,10 @@ public class QuotationService : IQuotationService
         var response = await client.GetFromJsonAsync<QuotationResult.Index>($"{endpoint}?{request.AsQueryString()}");
         return response!;
     }
+
+    public async Task<IEnumerable<QuotationDto.Detail>?> GetPreviousVersionsAsync(int quotationId)
+    {
+        var response = await client.GetFromJsonAsync<IEnumerable<QuotationDto.Detail>>(($"{endpoint}/{quotationId}/previousversions"));
+        return response;
+    }
 }

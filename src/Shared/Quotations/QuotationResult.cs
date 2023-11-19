@@ -9,4 +9,5 @@ public abstract class QuotationResult
         public IEnumerable<QuotationDto.Index>? Quotations { get; set; }
         public int TotalAmount { get; set; }
     }
+
 }

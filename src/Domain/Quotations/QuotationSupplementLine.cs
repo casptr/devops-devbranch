@@ -16,7 +16,7 @@ public class QuotationSupplementLine : Entity
     public Money SupplementVat { get; } = default!;
 
     public int Quantity { get; set; } = default!;
-    public int QuotationVersionId { get; set; }
+    public int QuotationId { get; set; }
 
     /// <summary>
     /// Database Constructor

@@ -261,7 +261,7 @@ public class CustomerComponent : IComponent
             column.Item().Text("Aan").SemiBold();
             column.Item().PaddingBottom(2).LineHorizontal(1);
             column.Item().Text($"{Firstname} {Lastname}");
-            column.Item().Text($" {Email}");
+            column.Item().Text($"{Email}");
             column.Item().Text($"{Phone}");
             column.Item().Text($"{CompanyName}");
             column.Item().Text($"{CompanyNumber}");

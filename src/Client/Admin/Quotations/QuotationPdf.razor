@@ -35,10 +35,9 @@
 
     private async Task GetPdf()
     {
-        if (QuotationDetail != null && QuotationDetail.QuotationVersions != null)
+        if (QuotationDetail != null)
         {
-            QuotationVersionDto.Detail version = QuotationDetail.QuotationVersions.Last();
-            string base64 = await PdfService .GetQuotationPdfAsBase64(QuotationDetail, version);
+            string base64 = await PdfService .GetQuotationPdfAsBase64(QuotationDetail);
             PdfData = $"data:application/pdf;base64,{base64}";
         }
     }

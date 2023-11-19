@@ -28,7 +28,7 @@ public class EmailController : Controller
     {
         Console.WriteLine("Talking to api mail/id");
         QuotationDto.Detail quotation = await quotationService.GetDetailAsync(quotationId);
-        if (quotation != null && quotation.QuotationVersions != null)
+        if (quotation != null)
         {
             await emailService.SendNewQuotationPdfToAdmin(quotation);
         }

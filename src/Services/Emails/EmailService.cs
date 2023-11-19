@@ -38,7 +38,7 @@ public class EmailService : IEmailService
 
     public async Task<bool> SendNewQuotationPdfToAdmin(QuotationDto.Detail quotation)
     {
-        string pdfToSendAsBase64 = await pdfService.GetQuotationPdfAsBase64(quotation, quotation.QuotationVersions!.Last());
+        string pdfToSendAsBase64 = await pdfService.GetQuotationPdfAsBase64(quotation);
         string customerFullName = quotation.Customer!.Firstname + " " + quotation.Customer.Lastname;
        
         string filename = $"Offerte_{quotation.Id}_{quotation.Customer.Lastname}_{quotation.Customer.Firstname}";

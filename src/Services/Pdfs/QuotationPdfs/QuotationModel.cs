@@ -20,7 +20,7 @@ public class QuotationModel
     public string? ExtraInfo { get; set; }
     public string? Description { get; set; }
     public ReservationDto.Detail? Reservation { get; set; }
-    public FormulaDto.Detail? Formula { get; set; }
+    public FormulaDto.Index? Formula { get; set; }
     public AddressDto? EventAddress { get; set; }
     public AddressDto? BillingAddress { get; set; }
 
@@ -34,29 +34,29 @@ public class QuotationModel
 
 
 
-    public QuotationModel(QuotationDto.Detail quotationDto, QuotationVersionDto.Detail quotationVersion)
+    public QuotationModel(QuotationDto.Detail quotation)
     {
-        Customer = quotationDto.Customer;
-        Id = quotationVersion.Id;
+        Customer = quotation.Customer;
+        Id = quotation.Id;
         // Quotation details
-        VersionNumber = quotationVersion.VersionNumber;
-        NumberOfGuests = quotationVersion.NumberOfGuests;
-        ExtraInfo = quotationVersion.ExtraInfo;
-        Description = quotationVersion.Description;
-        Reservation = quotationVersion.Reservation;
-        Formula = quotationVersion.Formula;
+        VersionNumber = quotation.VersionNumber;
+        NumberOfGuests = quotation.NumberOfGuests;
+        ExtraInfo = quotation.ExtraInfo;
+        Description = quotation.Description;
+        Reservation = quotation.Reservation;
+        Formula = quotation.Formula;
 
         // Address details
-        EventAddress = quotationVersion.EventAddress;
-        BillingAddress = quotationVersion.BillingAddress;
+        EventAddress = quotation.EventAddress;
+        BillingAddress = quotation.BillingAddress;
 
         // Pricing details
-        FoodtruckPrice = quotationVersion.FoodtruckPrice;
-        Price = quotationVersion.Price;
-        VatTotal = quotationVersion.VatTotal;
+        FoodtruckPrice = quotation.FoodtruckPrice;
+        Price = quotation.Price;
+        VatTotal = quotation.VatTotal;
 
         // Supplement lines
-        FormulaSupplementLines = quotationVersion.FormulaSupplementLines;
-        ExtraSupplementLines = quotationVersion.ExtraSupplementLines;
+        FormulaSupplementLines = quotation.FormulaSupplementLines;
+        ExtraSupplementLines = quotation.ExtraSupplementLines;
     }
 }

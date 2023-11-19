@@ -41,8 +41,8 @@ public class SupplementController : ControllerBase
     [HttpPost] // TODO: Roles - Authorize(Roles = Roles.Administrator)
     public async Task<IActionResult> Create(SupplementDto.Mutate model)
     {
-        var supplementId = await supplementService.CreateAsync(model);
-        return CreatedAtAction(nameof(Create), new { id = supplementId });
+        var result = await supplementService.CreateAsync(model);
+        return CreatedAtAction(nameof(Create), result);
     }
 
     [SwaggerOperation("Edites an existing supplement.")]

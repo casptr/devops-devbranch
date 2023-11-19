@@ -46,4 +46,12 @@ public class QuotationController : Controller
     }
 
 
+    [SwaggerOperation("Returns the previous versions of a specific quotation.")]
+    [HttpGet("{quotationId}/previousversions")]
+    public async Task<IEnumerable<QuotationDto.Detail>?> GetPreviousVersions(int quotationId)
+    {
+        return await quotationService.GetPreviousVersionsAsync(quotationId);
+    }
+
+
 }
