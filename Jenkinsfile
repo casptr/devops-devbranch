@@ -9,6 +9,7 @@ pipeline {
                 sh 'git clone https://github.com/casptr/devops-devbranch.git'
                 sh 'ls'
             }
+        }
         stage('Preparation') {
             steps {
                 build job: 'CheckIfDbRunning'
