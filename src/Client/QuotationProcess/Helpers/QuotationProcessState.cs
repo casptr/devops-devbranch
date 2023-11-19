@@ -36,8 +36,8 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
         public void ConfigureQuotationReservation()
         {
-            QuotationVersion.Reservation.Start = ReservationModel.Start?.Date.AddHours(11);
-            QuotationVersion.Reservation.End = ReservationModel.End?.Date.AddHours(16);
+            Quotation.Reservation.Start = ReservationModel.Start?.Date.AddHours(11);
+            Quotation.Reservation.End = ReservationModel.End?.Date.AddHours(16);
         }
 
         public void ConfigureQuotationFormula(FormulaDto.Detail formula)
