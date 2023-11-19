@@ -9,6 +9,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 {
     public class QuotationProcessState
     {
+        public bool ReachedEnd { get; set; } = false;
         public int? CurrentStepIndex { get; set; }
 
         public QuotationDto.Create Quotation { get; } = new();
@@ -33,10 +34,10 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         // CustomerDetails
         public CustomerDetailsFormModel CustomerDetailsFormModel { get; set; } = new();
 
-        public void ConfigureQuotationReservation(DateTime? start, DateTime? end)
+        public void ConfigureQuotationReservation()
         {
-            Quotation.Reservation.Start = start;
-            Quotation.Reservation.End = end;
+            Quotation.Reservation.Start = ReservationModel.Start?.Date.AddHours(11);
+            Quotation.Reservation.End = ReservationModel.End?.Date.AddHours(16);
         }
 
         public void ConfigureQuotationFormula(FormulaDto.Detail formula)

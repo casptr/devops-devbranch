@@ -61,9 +61,11 @@ public partial class AddSupplements
     private void Submit()
     {
         QuotationProcessState.ConfigureQuotationExtraSupplements();
-        QuotationProcessStepControl.NextStep();
+        if (QuotationProcessState.ReachedEnd)
+            QuotationProcessStepControl.GoToOverview();
+        else
+            QuotationProcessStepControl.NextStep();
     }
-
 
     protected override void OnInitialized()
     {

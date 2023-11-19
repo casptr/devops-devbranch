@@ -2,70 +2,75 @@
 @using Foodtruck.Client.QuotationProcess.Helpers;
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
-    <QuotationProcessTimeline Steps="Steps" CurrentStepIndex="ActiveStepIndex" />
+	<QuotationProcessTimeline Steps="Steps" CurrentStepIndex="ActiveStepIndex" />
 
-    <CascadingValue Value="this">
-        @ChildContent
-    </CascadingValue>
+	<CascadingValue Value="this">
+		@ChildContent
+	</CascadingValue>
 </MudContainer>
 
 @code {
-    [Inject] private QuotationProcessState QuotationProcessState { get; set; } = default!;
+	[Inject] private QuotationProcessState QuotationProcessState { get; set; } = default!;
 
-    [Inject] private IJSRuntime JsRuntime { get; set; } = default!;
+	[Inject] private IJSRuntime JsRuntime { get; set; } = default!;
 
-    [Parameter] public RenderFragment ChildContent { get; set; } = default!;
+	[Parameter] public RenderFragment ChildContent { get; set; } = default!;
 
-    public int ActiveStepIndex => QuotationProcessState.CurrentStepIndex ?? 0;
-    public QuotationProcessStep ActiveStep => Steps[ActiveStepIndex];
+	public int ActiveStepIndex => QuotationProcessState.CurrentStepIndex ?? 0;
+	public QuotationProcessStep ActiveStep => Steps[ActiveStepIndex];
 
-    List<QuotationProcessStep> Steps = new();
+	List<QuotationProcessStep> Steps = new();
 
-    internal void AddStep(QuotationProcessStep step)
-    {
-        Steps.Add(step);
+	internal void AddStep(QuotationProcessStep step)
+	{
+		Steps.Add(step);
 
-        if (ActiveStepIndex == Steps.Count - 1)
-            GoToStep(ActiveStepIndex);
-    }
+		if (ActiveStepIndex == Steps.Count - 1)
+			GoToStep(ActiveStepIndex);
+	}
 
-    public void GoToStep(int stepIndex)
-    {
-        if (stepIndex > ActiveStepIndex)
-            return;
+	public void GoToStep(int stepIndex)
+	{
+		QuotationProcessState.CurrentStepIndex = stepIndex;
+		ActivateStep();
+	}
 
-        QuotationProcessState.CurrentStepIndex = stepIndex;
-        ActivateStep();
-    }
+	public void GoToOverview()
+	{
+		GoToStep(4);
+	}
 
-    public void NextStep()
-    {
-        if (Steps.Count - 1 == ActiveStepIndex)
-            return;
+	public void NextStep()
+	{
+		if (Steps.Count - 1 == ActiveStepIndex)
+			return;
 
-        if (ActiveStepIndex == 0)
-            JsRuntime.InvokeVoidAsync("setExitEvent");
+		if (ActiveStepIndex == 0)
+			JsRuntime.InvokeVoidAsync("setExitEvent");
 
-        if (ActiveStepIndex == 4)
-            JsRuntime.InvokeVoidAsync("deleteExitEvent");
+		if (ActiveStepIndex == 3)
+			QuotationProcessState.ReachedEnd = true;
 
-        QuotationProcessState.CurrentStepIndex++;
-        ActivateStep();
-    }
+		if (ActiveStepIndex == 4)
+			JsRuntime.InvokeVoidAsync("deleteExitEvent");
 
-    public void PreviousStep()
-    {
-        if (ActiveStepIndex == 0)
-            return;
+		QuotationProcessState.CurrentStepIndex++;
+		ActivateStep();
+	}
 
-        QuotationProcessState.CurrentStepIndex--;
-        ActivateStep();
-    }
+	public void PreviousStep()
+	{
+		if (ActiveStepIndex == 0)
+			return;
 
-    private void ActivateStep()
-    {
-        StateHasChanged();
-        JsRuntime.InvokeVoidAsync("backToTop");
-    }
+		QuotationProcessState.CurrentStepIndex--;
+		ActivateStep();
+	}
+
+	private void ActivateStep()
+	{
+		StateHasChanged();
+		JsRuntime.InvokeVoidAsync("backToTop");
+	}
 
 }

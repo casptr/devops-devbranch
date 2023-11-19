@@ -4,40 +4,45 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
-    <Formulas />
+	<Formulas />
 
-    @if (ValidationFailed)
-    {
-        <MudText Color="Color.Error" Class="mb-3">Gelieve een formule te selecteren om door te gaan</MudText>
-    }
-    <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
+	@if (ValidationFailed)
+	{
+		<MudText Color="Color.Error" Class="mb-3">Gelieve een formule te selecteren om door te gaan</MudText>
+	}
+	@if (!QuotationProcessState.ReachedEnd)
+	{
+		<MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
+	}
+	<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">@(QuotationProcessState.ReachedEnd ? "Keer terug naar overzicht" : "Doorgaan")</MudButton>
 </MudContainer>
 
 
 @code {
-    [CascadingParameter] private QuotationProcessStepControl QuotationProcessStepControl { get; set; }
-    public bool HasSelectedFormula => QuotationProcessState.CurrentSelectedFormula != null;
-    public bool ValidationFailed { get; set; }
+	[CascadingParameter] private QuotationProcessStepControl QuotationProcessStepControl { get; set; }
+	public bool HasSelectedFormula => QuotationProcessState.CurrentSelectedFormula != null;
+	public bool ValidationFailed { get; set; }
 
-    private void Submit()
-    {
-        ValidationFailed = false;
+	private void Submit()
+	{
+		ValidationFailed = false;
 
-        if (!HasSelectedFormula)
-        {
-            ValidationFailed = true;
-            return;
-        }
+		if (!HasSelectedFormula)
+		{
+			ValidationFailed = true;
+			return;
+		}
+		if (QuotationProcessState.ReachedEnd)
+			QuotationProcessStepControl.GoToOverview();
+		else
+			QuotationProcessStepControl.NextStep();
+	}
 
-        QuotationProcessStepControl.NextStep();
-    }
+	protected override void OnInitialized()
+	{
+		if (QuotationProcessStepControl == null)
+			throw new ArgumentNullException(nameof(QuotationProcessStepControl), "FormulaSelection must be used inside a QuotationProcessStep");
 
-    protected override void OnInitialized()
-    {
-        if (QuotationProcessStepControl == null)
-            throw new ArgumentNullException(nameof(QuotationProcessStepControl), "FormulaSelection must be used inside a QuotationProcessStep");
-
-        base.OnInitialized();
-    }
+		base.OnInitialized();
+	}
 }

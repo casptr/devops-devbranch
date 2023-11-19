@@ -68,10 +68,11 @@ namespace Foodtruck.Client.QuotationProcess.Components
                 return;
             }
 
-            Model.Start = Model.Start?.Date.AddHours(11);
-            Model.End = Model.End?.Date.AddHours(16);
-            QuotationProcessState.ConfigureQuotationReservation(Model.Start, Model.End);
-            QuotationProcessStepControl.NextStep();
+            QuotationProcessState.ConfigureQuotationReservation();
+            if (QuotationProcessState.ReachedEnd)
+                QuotationProcessStepControl.GoToOverview();
+            else
+                QuotationProcessStepControl.NextStep();
         }
 
         // MudDatePicker Functions

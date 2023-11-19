@@ -10,8 +10,8 @@ namespace Foodtruck.Client.QuotationProcess.Components
         private CustomerDetailsFormModel model => QuotationProcessState.CustomerDetailsFormModel;
         private readonly CustomerDetailsFormModel.Validator validator = new();
 
-        private MudForm form = default !;
-       
+        private MudForm form = default!;
+
         bool useTestData = true;
 
         // For testing purposes TODO delete this
@@ -51,7 +51,10 @@ namespace Foodtruck.Client.QuotationProcess.Components
 
             QuotationProcessState.ConfigureQuotationCustomerDetails();
             QuotationProcessState.PrintQuotation();
-            QuotationProcessStepControl.NextStep();
+            if (QuotationProcessState.ReachedEnd)
+                QuotationProcessStepControl.GoToOverview();
+            else
+                QuotationProcessStepControl.NextStep();
         }
     }
 }
