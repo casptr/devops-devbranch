@@ -12,7 +12,6 @@ pipeline {
         }
         stage('Preparation') {
             steps {
-                sh 'pwd'
                 echo 'Checking database container'
                 build job: 'CheckIfDbRunning'
                 echo 'Creating application container image'
