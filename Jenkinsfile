@@ -7,6 +7,7 @@ pipeline {
                 echo 'Cloning repository'
                 sh 'rm -fr devops-devbranch'
                 sh 'git clone https://github.com/casptr/devops-devbranch.git'
+                sh 'pwd'
             }
         }
         stage('Preparation') {
