@@ -8,7 +8,7 @@ pipeline {
                 build job: 'CheckIfDbRunning'
             }
         }
-        stage ('Compile & Testing') {
+        stage ('Compiling & Testing') {
             steps {
                 echo 'Compiling app and running tests'
                 build job: 'BuildApp'
