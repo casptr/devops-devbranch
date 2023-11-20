@@ -9,11 +9,15 @@ pipeline {
                 echo 'Creating application container image'
                 build job: 'BuildApp'
             }
+        stage ('Testing') {
+            steps {
+                echo 'Running tests'
+                build job: 'TestApp'
+            }
         }
         stage('Deployment') {
             steps {
                 echo 'Deploying application container'
-                build job: 'StartContainer'
             }
         }
     }
