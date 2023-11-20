@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Deployment') {
             steps {
-                echo 'Deploying application container'
+                echo 'Deployment stage reached'
             }
         }
     }
