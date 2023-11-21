@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="\app\src\Services\FoodTruck.Services.csproj" />
+    <ProjectReference Include="..\..\Services\FoodTruck.Services.csproj" />
   </ItemGroup>
 
 </Project>
